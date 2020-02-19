@@ -1,0 +1,34 @@
+<!--components/my-comment/my-comment.wxml-->
+<view class="comment-box">
+    <view class="comment-avatar">
+    </view>    
+    <view class="comment-main">
+        <view class="comment-brief">
+            <view class="comment-brief-text">
+                好为·3小时前
+            </view>
+            <view class="comment-breif-good">
+                点
+            </view>    
+        </view>  
+        <view class="comment-contnet">
+            这是一条评论
+        </view>
+        <view class="comment-actions">
+            <view>删除</view>
+        </view>
+        <view class="comment-reply">
+            <view class="comment-main">
+                <view class="comment-brief,comment-reply-brief">
+                    <view class="comment-brief-text">
+                    作者回复
+                    </view>
+                </view> 
+                <view class="comment-contnet">
+                        这是一条评论
+                </view> 
+            </view>
+        </view>          
+    </view>        
+</view>
+

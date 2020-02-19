@@ -1,0 +1,44 @@
+/* miniprogram/pages/comments/comments.wxss */
+.article-box {
+  background-color: #ffffff;
+  padding: 32rpx;
+  display: flex;
+  margin-bottom: 32rpx;
+}
+
+.article-image {
+  width: 96rpx;
+  min-width: 96rpx;
+  height: 96rpx;
+  min-height: 96rpx;
+  background-color: #eee;
+  display: block;
+  margin-right: 32rpx;
+}
+.article-title {
+  font-size: 32rpx;
+}
+.comment-container {
+
+}
+
+.input-box {
+  position: fixed;
+  top: 100vh;
+  margin-top: -108rpx;
+  background-color: #fff;
+  width: 100%;
+  padding-top: 16rpx;
+  padding-bottom: 16rpx;
+  display: flex;
+  box-shadow: 0 -1rpx 2px 2px #eee
+}
+
+.input-text {
+  padding: 32rpx;
+  flex:1;
+  background-color: #efefef;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+  border-radius: 8rpx;
+}

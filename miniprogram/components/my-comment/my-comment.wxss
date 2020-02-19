@@ -1,0 +1,47 @@
+/* components/my-comment/my-comment.wxss */
+.comment-box {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    padding: 32rpx;
+}
+
+.comment-avatar {
+    width:64rpx;
+    height: 64rpx;
+    min-width: 64prx;
+    max-height: 64rpx;
+    overflow: hidden;
+    background-color: #eee;
+}
+.comment-main {
+    margin-left: 32rpx;
+    flex-grow: 1;
+}
+
+.comment-brief {
+    font-size: 28rpx;
+    color: #ddd;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.comment-contnet {
+    margin-top: 16rpx;
+    margin-bottom: 16rpx;
+}
+
+.comment-actions {
+    display: flex;
+    color: #ddd;
+}
+
+.comment-reply {
+    margin-top: 32rpx;
+    display: flex;
+}
+.comment-reply-brief {
+    border-left: 4rpx green solid;
+    padding-left: 16rpx;
+}
