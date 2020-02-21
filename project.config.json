@@ -61,6 +61,13 @@
 					"id": -1,
 					"name": "pages/comments/comments",
 					"pathName": "pages/comments/comments",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "pages/manager/manager",
+					"pathName": "pages/manager/manager",
 					"scene": null
 				}
 			]

@@ -4,6 +4,12 @@
     border-bottom: 1px solid #eee;
     display: flex;
     padding: 32rpx;
+   
+}
+
+.comment-box-opacity {
+    filter:Alpha(opacity=60);
+    opacity:0.6;
 }
 
 .comment-avatar {
@@ -35,6 +41,16 @@
 .comment-actions {
     display: flex;
     color: #ddd;
+    justify-content: space-between;
+}
+
+.comment-actions-main {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.comment-actions-item {
+    margin-right: 16rpx;
 }
 
 .comment-reply {

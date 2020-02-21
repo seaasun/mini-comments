@@ -1,17 +1,18 @@
 <view class="wxml-box">
     <view class="article-box">
         <navigator class="article-image"></navigator>
-        <navigator class="article-title">
-           这是一篇文章标题这是一篇文章标题这是一篇文章标题这
+        <navigator class="article-title text-clip-2">
+           这是一篇文章标题这是一篇文章标题这是一篇文章标题这这是一篇文章标题这这是一篇文章标题这这是一篇文章标题这
         </navigator>
     </view>
     <view class="comment-container">
+        <view class="comment-brief">
+            <view class="comment-text">精选留言 25</view>
+            <view class="comment-write"
+                >写留言</view>
+        </view>
         <my-comment wx:for="{{comments}}">
         </my-comment>
-    </view>
-    
-    
+    </view>   
 </view>
-<view class="input-box">
-    <view class="input-text">说点什么...</view>
-</view>    
+<my-textarea></my-textarea>

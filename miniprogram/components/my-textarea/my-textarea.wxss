@@ -1,0 +1,58 @@
+@import "../../app.wxss";
+
+.input-box {
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    box-shadow: 0 -1rpx 2px 2px #eee
+  }
+
+.input-display {
+    width: 100%;
+}  
+  
+.input-display-text {
+    padding: 24rpx 32rpx;
+    flex:1;
+    margin-left: 16rpx;
+    margin-right: 16rpx;
+    border-radius: 8rpx;
+}
+
+.input-main {
+    width: 100%;
+    padding: 0 24rpx 16rpx 24rpx;
+}
+
+.input-main-brief {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-breif-text {
+    color: #ccc;
+    padding: 16rpx 16rpx 16rpx 0
+}
+.intpu-brief-hidden {
+    padding: 16rpx 0 16rpx 16rpx
+}
+
+.input-textarea {
+    width: 100%;
+    padding: 0 0 24rpx 0;
+}
+
+.input-action {
+    display: flex;
+    justify-content: space-between
+}
+
+.input-action-emoj {
+    padding: 24rpx 24rpx 24rpx 0;
+}
+.input-action-send {
+    color: green;
+    padding: 24rpx 0 24rpx 24rpx;
+}

@@ -8,17 +8,26 @@
                 好为·3小时前
             </view>
             <view class="comment-breif-good">
-                点
+                 <mp-icon icon="like" color="#ccc"></mp-icon>
             </view>    
         </view>  
         <view class="comment-contnet">
             这是一条评论
         </view>
         <view class="comment-actions">
-            <view>删除</view>
+            <view class="comment-actions-main">
+                <view class="comment-actions-item">回复</view>
+                <view class="comment-actions-item">加入精选</view>
+                <view class="comment-actions-item">取消精选</view>
+            </view>
+            <picker class="comment-actions-item"
+                value="index"
+                range="{{moreActions}}"
+                bindchange="">
+                更多</picker>
         </view>
         <view class="comment-reply">
-            <view class="comment-main">
+            <view class="comment-replay-main">
                 <view class="comment-brief,comment-reply-brief">
                     <view class="comment-brief-text">
                     作者回复

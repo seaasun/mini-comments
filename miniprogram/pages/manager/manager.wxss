@@ -1,1 +1,99 @@
 /* miniprogram/pages/manager/manager.wxss */
+.manager-box {
+  background-color: #ffffff;
+  padding: 32rpx;
+  display: flex;
+  margin-bottom: 32rpx;
+}
+
+.manager-avator {
+    width: 96rpx;
+    min-width: 96rpx;
+    height: 96rpx;
+    min-height: 96rpx;
+    background-color: #eee;
+    display: block;
+    margin-right: 32rpx;
+}
+
+.manager-name {
+    font-size: 48rpx;
+}
+
+.topic-lists {
+   
+    width: 100%
+}
+
+.topic-box {
+    /* border-bottom: 1px solid #eee; */
+    background-color: #ffffff;
+    margin: 16rpx 0rpx;
+    padding: 32rpx 32rpx 0 32rpx
+}
+.topic-time {
+    color: #ccc;
+    margin-bottom: 16rpx;
+}
+.topic-item {
+    display: flex;
+}
+
+.topic-image {
+    flex-basis: 124rpx;
+    width: 124rpx;
+    min-width: 124rpx;
+    height: 124rpx;
+    overflow: hidden;
+    background-color: #eee;
+    margin-left: 32rpx;
+}
+
+.topic-main {
+    flex-grow: 1;
+
+}
+
+.topic-text {
+    margin-bottom: 8rpx;
+}
+.topic-brief {
+    font-size: 28rpx;
+    color: #ddd;
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+    margin-top: 16rpx;
+    border-top: 1rpx solid #ccc;
+    padding: 16rpx 0;
+}
+.topic-breif-item {
+    margin-right: 32rpx;
+}
+
+.pagination-box {
+    display: flex;
+    margin: 32rpx;
+}
+
+.pagination-prev {
+    flex-grow: 1;
+    text-align: center;
+    padding: 24rpx;
+    background-color: #fff;
+}
+.pagination-select {
+    flex-grow: 1;
+    text-align: center;
+    padding: 24rpx;
+    background-color: #fff;
+    margin-left: 24rpx;
+    margin-right: 24rpx;
+    min-width: 64rpx;
+}
+.pagination-next {
+    flex-grow: 1;
+    text-align: center;
+    padding: 24rpx;
+    background-color: #fff;
+}

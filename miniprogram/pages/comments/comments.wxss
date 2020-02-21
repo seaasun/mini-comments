@@ -7,10 +7,10 @@
 }
 
 .article-image {
-  width: 96rpx;
-  min-width: 96rpx;
-  height: 96rpx;
-  min-height: 96rpx;
+  width: 108rpx;
+  min-width: 108rpx;
+  height: 108rpx;
+  min-height: 108rpx;
   background-color: #eee;
   display: block;
   margin-right: 32rpx;
@@ -19,26 +19,18 @@
   font-size: 32rpx;
 }
 .comment-container {
-
+  background-color: #ffffff;
 }
-
-.input-box {
-  position: fixed;
-  top: 100vh;
-  margin-top: -108rpx;
-  background-color: #fff;
-  width: 100%;
-  padding-top: 16rpx;
-  padding-bottom: 16rpx;
+.comment-brief {
   display: flex;
-  box-shadow: 0 -1rpx 2px 2px #eee
+  justify-content: space-between;
 }
 
-.input-text {
+.comment-write {
+  color: green;
   padding: 32rpx;
-  flex:1;
-  background-color: #efefef;
-  margin-left: 16rpx;
-  margin-right: 16rpx;
-  border-radius: 8rpx;
+}
+
+.comment-text {
+  padding: 32rpx;
 }

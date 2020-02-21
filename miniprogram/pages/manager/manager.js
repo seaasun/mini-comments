@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    topics: [
+      {a: 1}, {b: 2}, {b: 2}, {b: 2}, {b: 2}
+    ],
+    paginations: [{index:1},{index:2}]
   },
 
   /**
