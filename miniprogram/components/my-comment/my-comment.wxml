@@ -7,8 +7,14 @@
             <view class="comment-brief-text">
                 好为·3小时前
             </view>
-            <view class="comment-breif-good">
-                 <mp-icon icon="like" color="#ccc"></mp-icon>
+            <view class="comment-breif-good"
+                    bindtap="doToggleGood">
+                <mp-icon wx:if="{{!toggleGooding}}" 
+                    icon="like" color="#B2B2B2"></mp-icon>
+                <mp-icon icon="add"
+                color="#B2B2B2"
+                wx:if="{{toggleGooding}}"
+                extClass="icon-rotate"></mp-icon>
             </view>    
         </view>  
         <view class="comment-contnet">
@@ -16,15 +22,36 @@
         </view>
         <view class="comment-actions">
             <view class="comment-actions-main">
-                <view class="comment-actions-item">回复</view>
-                <view class="comment-actions-item">加入精选</view>
-                <view class="comment-actions-item">取消精选</view>
+                <view class="comment-actions-item"
+                    bindtap="writeAuthorComment">
+                    回复</view>
+                <view class="comment-actions-item" 
+                    bindtap="addComment"
+                    >
+                    <text wx:if="{{!showAddCommenting}}">加入精选</text>
+                     <mp-icon icon="add"
+                        color="#B2B2B2"
+                        wx:if="{{showAddCommenting}}"
+                        extClass="icon-rotate"></mp-icon>
+                
+                </view>
+                <view class="comment-actions-item"
+                     bindtap="cancelComment">
+                    <text wx:if="{{!showCancelCommenting}}">取消精选</text>
+                    <mp-icon icon="add"
+                        color="#B2B2B2"
+                        wx:if="{{showCancelCommenting}}"
+                        extClass="icon-rotate"></mp-icon>
+                </view>
             </view>
-            <picker class="comment-actions-item"
-                value="index"
-                range="{{moreActions}}"
-                bindchange="">
-                更多</picker>
+            <view bindtap="showMoreActions">
+               <mp-icon wx:if="{{!actionMoring}}" icon="more"  color="#B2B2B2"></mp-icon>
+                <mp-icon icon="add"
+                    color="#B2B2B2"
+                    wx:if="{{actionMoring}}"
+                    extClass="icon-rotate"></mp-icon>
+                
+            </view>
         </view>
         <view class="comment-reply">
             <view class="comment-replay-main">
@@ -41,3 +68,40 @@
     </view>        
 </view>
 
+<mp-actionSheet
+                show="{{showMoreAction}}"
+                title="更多"
+                value="index"
+                actions="{{moreActions}}"
+                bindactiontap="doActionMore">
+</mp-actionSheet>
+
+<view wx:if="{{showDeleteTip}}" 
+    class="delete-tip-box">
+    <view class="delete-tip-main">
+        <view class="delete-tip-text"
+            wx:if="{{deleteTipWating}}">
+            即将删除
+        </view>
+        <view class="delete-tip-do"
+            bindtap="cancelDeleteComment"
+            wx:if="{{deleteTipWating}}">
+            点此撤销
+        </view>
+
+        <view class="delete-tip-text"
+            wx:if="{{deleteTiping}}">
+            删除中
+        </view>
+        <mp-icon icon="add"
+            color="#B2B2B2"
+        view   wx:if="{{deleteTiping}}"
+            extClass="icon-rotate"></mp-icon>
+
+        <view wx:if="{{delteTipDone}}"
+                class="delete-tip-text">
+            删除完成
+        </view>
+    </view>
+    <view class="delete-tip-progress"> 22</view>
+</view>

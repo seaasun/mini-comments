@@ -1,0 +1,9 @@
+/* components/my-footer/my-footer.wxss */
+.footer-box {
+    padding-top: 32rpx;
+    padding-bottom: 32rpx;
+    color: #B2B2B2;
+    text-align: center;
+    flex: 0 0 auto;
+    width: 100%;
+}

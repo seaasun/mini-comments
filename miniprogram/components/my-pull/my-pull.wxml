@@ -1,0 +1,9 @@
+<view class="scroll" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <view class="animation">
+    <view class="loading"></view>
+    <text class="tip">{{state === 0 ? '下拉刷新' : state === 1? '松开刷新' : '刷新中'}}</text>
+  </view>
+  <view style="transform: translateY({{translateHeight}}rpx)">
+    <slot name="content"></slot>
+  </view>
+</view>

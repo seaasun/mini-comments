@@ -3,8 +3,7 @@
         bindtap="commentFocusInput">
     <view 
          bindtap="commentFocusInput"
-        class="input-display">    
-        {{states.isInputComment}}   
+        class="input-display">     
         <view class="text-clip input-display-text">
             {{currentComment ? currentComment : '说点什么...'}}
         </view>
@@ -19,7 +18,7 @@
                 <view class="input-breif-text">写留言：</view>
                 <view class="intpu-brief-hidden" 
                     bindtap="commentNotFocusInput">
-                     <mp-icon icon="close" color="#ccc"></mp-icon>
+                     <mp-icon icon="close" color="#B2B2B2"></mp-icon>
                 </view>  
           </view>    
        
@@ -42,7 +41,7 @@
                ></textarea>
         <view class="input-action">
             <view  class="input-action-emoj">
-                <mp-icon icon="sticker" color="#ccc"></mp-icon>
+                <mp-icon icon="sticker" color="#B2B2B2"></mp-icon>
             </view>
             <view class="input-action-send">
                 发布

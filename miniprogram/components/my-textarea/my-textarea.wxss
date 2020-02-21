@@ -3,10 +3,10 @@
 .input-box {
     position: fixed;
     bottom: 0;
-    background-color: #fff;
+    background-color: #ffffff;
     width: 100%;
     display: flex;
-    box-shadow: 0 -1rpx 2px 2px #eee
+    box-shadow: 0 -1rpx 2px 2px #eeeeee
   }
 
 .input-display {
@@ -32,7 +32,7 @@
 }
 
 .input-breif-text {
-    color: #ccc;
+    color: #B2B2B2;
     padding: 16rpx 16rpx 16rpx 0
 }
 .intpu-brief-hidden {
@@ -53,6 +53,6 @@
     padding: 24rpx 24rpx 24rpx 0;
 }
 .input-action-send {
-    color: green;
+    color: #07c160;
     padding: 24rpx 0 24rpx 24rpx;
 }

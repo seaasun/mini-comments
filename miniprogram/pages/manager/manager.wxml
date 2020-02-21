@@ -1,52 +1,63 @@
 <!--miniprogram/pages/manager/manager.wxml-->
 <view class="wxml-box">
-    <view class="manager-box">
-        <!-- <view class="manager-avator">
-        </view> -->
-        <view class="manager-brief">
-            <view class="manager-name">留言板列表</view>
-            <view class="manager-status">话题数 22</view>
-        </view>    
-    </view>
-    <view class="topic-lists">
-        <view wx:for="{{topics}}" class="topic-box">
-            <view class="topic-time">
-                两天前创建
-            </view>
-            <navigator class="topic-item">
-                <view class="topic-main">
-                    <view class="topic-text text-clip-2">
-                        这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题
-                    </view>
-                    <view class="topic-brief">
-                        <view class="topic-breif-item">
-                            两天前
-                        </view>
-                        <view class="topic-breif-item">
-                            新 5
-                        </view>
-                        <view class="topic-breif-item">
-                            未审核 9
-                        </view>
-                        <view class="topic-breif-item">
-                            评论 21
-                        </view>       
-                    </view> 
-                </view>
-                <view class="topic-image"></view>
-            </navigator>
-            
-        </view>    
-    </view>
-    <!-- <view class="pagination-box">
-        <view class="pagination-prev">前一页</view>
-        <view class="pagination-select">
-            <picker range="{{paginations}}" 
-                    range-key="index"
-                    value="0">
-                1   
-            </picker>
+    <view class="wxml-main">
+        <view class="manager-box">
+            <!-- <view class="manager-avator">
+            </view> -->
+            <view class="manager-brief">
+                <view class="manager-name">留言板列表</view>
+                <view class="manager-status">话题数 22</view>
+            </view>    
         </view>
-        <view class="pagination-next">后一页</view>
-    </view> -->
+        <my-page-loading></my-page-loading>
+        <view class="topic-lists">
+            <view class="topic-box">
+                <view class="topic-time">
+                    还没您的留言板
+                </view>
+                <view class="go-create-topic">
+                    <mp-icon icon="add"></mp-icon>    
+                    <view>去建留言板</view>
+                </view>
+                <view class="go-create-topic-brief">
+                    亦可在电脑端创建留言板
+                </view>    
+            </view>    
+            <view wx:for="{{topics}}" class="topic-box">
+                <view class="topic-time">
+                    两天前创建
+                </view>
+                <navigator class="topic-item">
+                    <view class="topic-main">
+                        <view class="topic-text text-clip-2">
+                            这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题
+                        </view>
+                        <view class="topic-brief">
+                            <view class="topic-breif-item">
+                                新评论 2天前
+                            </view>
+                            <view class="topic-breif-item">
+                                评论 21
+                            </view>       
+                        </view> 
+                    </view>
+                    <view class="topic-image"></view>
+                </navigator>
+                
+            </view>    
+        </view>
+        <!-- <view class="pagination-box">
+            <view class="pagination-prev">前一页</view>
+            <view class="pagination-select">
+                <picker range="{{paginations}}" 
+                        range-key="index"
+                        value="0">
+                    1   
+                </picker>
+            </view>
+            <view class="pagination-next">后一页</view>
+        </view> -->
+    </view>
+    <my-footer></my-footer>
 </view>
+

@@ -1,3 +1,10 @@
 {
-  "usingComponents": {}
+  "backgroundColor": "#F4F4F4",
+  "usingComponents": {
+    "my-page-loading": "../../components/my-page-loading/my-page-loading",
+    "mp-icon": "../../weui-miniprogram/icon/icon"
+  },
+  "window": {
+    "backgroundColor": "#F4F4F4"
+  }
 }

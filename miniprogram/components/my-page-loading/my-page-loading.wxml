@@ -1,0 +1,6 @@
+<!--components/my-page-loading/my-page-loading.wxml-->
+
+<view class="comment-loadding">
+        <mp-loading></mp-loading>
+        <view class="comment-loadding-text">加载中</view>
+    </view>    

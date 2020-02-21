@@ -1,18 +1,58 @@
+
 <view class="wxml-box">
-    <view class="article-box">
-        <navigator class="article-image"></navigator>
-        <navigator class="article-title text-clip-2">
-           这是一篇文章标题这是一篇文章标题这是一篇文章标题这这是一篇文章标题这这是一篇文章标题这这是一篇文章标题这
-        </navigator>
-    </view>
-    <view class="comment-container">
-        <view class="comment-brief">
-            <view class="comment-text">精选留言 25</view>
-            <view class="comment-write"
-                >写留言</view>
+    <view class="wxml-main">
+        <view class="article-box">
+            <navigator class="article-image"></navigator>
+            <navigator class="article-title text-clip-2">
+                <view class="article-privew-text"></view>
+                <view class="article-privew-text"></view>
+                文章内容文章内容 文章内容文章内容 文章内容文章内容 文章内容文章内容 文章内容文章内容 文章内容文章内容 文章内容文章内容 文章内容文章内容
+            </navigator>
         </view>
-        <my-comment wx:for="{{comments}}">
-        </my-comment>
-    </view>   
+        <my-page-loading></my-page-loading>
+        <view class="comment-container">
+            <view class="comment-brief">
+                <view class="comment-text">精选留言 25</view>
+                <view class="comment-write"
+                    bindtap="writeComment"
+                    >写留言</view>
+            </view>
+
+            <!-- <view class="comment-box" wx:for="{{[1,2]}}">
+                <view class="comment-avatar">
+                </view>    
+                <view class="comment-main">
+                    <view class="comment-brief-preview"> 
+                    </view>
+                    <view class="comment-content-preview" >
+                    </view>
+                    <view class="comment-content-preview" >
+                    </view>
+                    <view class="comment-content-preview" >
+                    </view>
+                </view>
+            </view>      -->
+
+            <view class="comment-box">
+                <view class="comment-avatar">
+                </view>    
+                <view class="comment-main">
+                    <view class="comment-brief"> 
+                        邀请你写下第一份留言
+                    </view>
+                    <view class="first-comment"  
+                        bindtap="writeComment">
+                        <mp-icon icon="pencil" color="#B2B2B2" size="64"></mp-icon>
+                        <view class="first-comment-text">写留言</view>
+                    </view>
+                </view>
+            </view>           
+            <my-comment wx:for="{{comments}}">
+            </my-comment>
+        </view> 
+    </view>
+    <my-footer class="comment-footer"></my-footer> 
 </view>
+
+
 <my-textarea></my-textarea>

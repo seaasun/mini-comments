@@ -11,7 +11,7 @@
     min-width: 96rpx;
     height: 96rpx;
     min-height: 96rpx;
-    background-color: #eee;
+    background-color: #B2B2B2;
     display: block;
     margin-right: 32rpx;
 }
@@ -32,7 +32,7 @@
     padding: 32rpx 32rpx 0 32rpx
 }
 .topic-time {
-    color: #ccc;
+    color: #B2B2B2;
     margin-bottom: 16rpx;
 }
 .topic-item {
@@ -45,7 +45,7 @@
     min-width: 124rpx;
     height: 124rpx;
     overflow: hidden;
-    background-color: #eee;
+    background-color: #DFDFDF;
     margin-left: 32rpx;
 }
 
@@ -59,12 +59,12 @@
 }
 .topic-brief {
     font-size: 28rpx;
-    color: #ddd;
+    color: #B2B2B2;
     display: flex;
     justify-content: flex-start;
     flex-grow: 1;
     margin-top: 16rpx;
-    border-top: 1rpx solid #ccc;
+    border-top: 1rpx solid #E5E5E5;
     padding: 16rpx 0;
 }
 .topic-breif-item {
@@ -80,13 +80,13 @@
     flex-grow: 1;
     text-align: center;
     padding: 24rpx;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 .pagination-select {
     flex-grow: 1;
     text-align: center;
     padding: 24rpx;
-    background-color: #fff;
+    background-color: #ffffff;
     margin-left: 24rpx;
     margin-right: 24rpx;
     min-width: 64rpx;
@@ -95,5 +95,19 @@
     flex-grow: 1;
     text-align: center;
     padding: 24rpx;
-    background-color: #fff;
+    background-color: #ffffff;
+}
+
+.go-create-topic {
+    text-align: center;
+    padding-top: 64rpx;
+    padding-bottom: 64rpx;
+    border-bottom: 1rpx solid #E5E5E5
+}
+
+.go-create-topic-brief {
+    font-size: 28rpx;
+    color: #B2B2B2;
+    margin-top: 8rpx;
+    padding: 16rpx 0;
 }

@@ -1,0 +1,4 @@
+<!--components/my-footer/my-footer.wxml-->
+<view class="footer-box">
+    XX公司 技术支持 & 版权所有
+</view>

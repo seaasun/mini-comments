@@ -6,11 +6,16 @@
     "pages/comments/comments"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundColor": "#F4F4F4",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "畅言留言",
     "navigationBarTextStyle": "black"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  
+  "usingComponents": {
+    "my-footer": "components/my-footer/my-footer"
+  }
 }

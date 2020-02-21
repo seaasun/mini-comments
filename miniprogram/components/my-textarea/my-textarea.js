@@ -17,7 +17,7 @@ Component({
     currentComment: "",
     currenInputComment: "",
     display: {
-      inputPlaceholder: "留言将有公众号筛选，对所有人可见"
+      inputPlaceholder: "留言将由公众号筛选，对所有人可见"
     },
     textBottom: 0,
     textMaxHeight: '128rpx',
