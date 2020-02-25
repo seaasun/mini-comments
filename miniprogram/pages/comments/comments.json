@@ -1,14 +1,14 @@
 {
   "backgroundColor": "#F4F4F4",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 500,
   "usingComponents": {
     "pulltorefresh-view": "../../components/wx-pulltorefresh-view/wx-pulltorefresh-view",
     "my-comment": "../../components/my-comment/my-comment",
     "my-textarea": "../../components/my-textarea/my-textarea",
     "my-pull": "../../components/my-pull/my-pull",
     "my-page-loading": "../../components/my-page-loading/my-page-loading",
-    "mp-icon": "../../weui-miniprogram/icon/icon"
-    
-  },
-  "enablePullDownRefresh": false,
-  "backgroundTextStyle": "dark"
+    "mp-icon": "../../weui-miniprogram/icon/icon",
+    "mp-toptips": "../weui-miniprogram/toptips/toptips"
+  }
 }

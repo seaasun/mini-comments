@@ -1,5 +1,6 @@
 // miniprogram/pages/comments/comments.js
 var store = require('../../store')
+var utils = require('../../utils/index')
 
 Page({
 
@@ -7,23 +8,78 @@ Page({
    * 页面的初始数据
    */
   data: {
-    comments: [
-     {a:1},{b:2},{c:3}
-    ]
+    comments: [],
+    commentsHasFirstLoad: false,
+    commenstHasLoadError: false,
+    webErrors: [],
+    commentseMoreLoadding: false,
+    loaderMoreShowed: false,
+    noLoaderMoreShowed: false,
+    pagination: {
+      pageNum: 1,
+      pageSize: 30
+    },
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.myDebug = this.data
     store.subject(this)
+    store.action('update', {
+     isManager: options.isManager == 1  || false
+    })
+    if (options.msgBoardId !== this.data.states.msgBoard.id) {
+      store.action('updateMsgboard', {
+        id: options.msgBoardId
+      })
+      this.onLoadFecthMsgBoard()
+    }
+    this.onLoadFetchComments()
+  },
+  onLoadFecthMsgBoard: function () {
+    wx.myRequests.msgBoardOne({
+      id:this.data.states.msgBoard.id
+    }, data => {
+      store.action('update', {
+        msgBoard: data
+      })
+    }, resp => {
+
+    })
+  },
+  onLoadFetchComments: function () {
+    this.setData({
+      commentsHasFirstLoad: false,
+      commentsHasLoadError: false
+    })
+    this.fetchComments(
+      () => {
+        this.setData({
+          commentsHasFirstLoad: true
+        })
+      },
+      () => {
+        this.setData({
+          commentsHasLoadError: true,
+          webErrors: [this.onLoadFetchComments]
+        })
+      }
+    )
+  },
+  doWrongMsgBoardId () {
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    store.action('update', {
+      //  isManager: options.isManager == 1  || false
+      isManager: true
+     })
   },
 
   /**
@@ -60,8 +116,28 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-
+  onReachBottom: function (event) {
+    if (this.data.loaderMoreShowed || this.data.noLoaderMoreShowed) return
+    this.setData({
+      loaderMoreShowed: true,
+      commentsHasLoadError: false
+    })
+    this.fetchComments(data => {
+      this.setData({
+        loaderMoreShowed: false
+      })
+      if (data.length === 0) {
+        this.setData({
+          noLoaderMoreShowed: true
+        })
+      }
+    }, () => {
+      this.setData({
+        loaderMoreShowed: false,
+        commentsHasLoadError: true,
+          webErrors: [this.onReachBottom]
+      })
+    })
   },
 
   /**
@@ -74,5 +150,40 @@ Page({
     store.action('update', {
       isInputComment: true
     })
+  },
+  fetchComments: function (success, fail) {
+    wx.myRequests.messageList({
+      ...this.data.pagination
+      },data => {
+        if (data.length > 0) {
+          data = data.map(item => {
+            item.creatFriendlyTime = utils.getFriendlyTime(new Date(item.createdTime))
+            item.lastFriendlyTime = utils.getFriendlyTime(new Date(item.updatedTime))
+            return item
+          })
+          
+          this.setData({
+            comments: this.data.comments.concat(data),
+            pagination: {
+              pageNum: this.data.pagination.pageNum + 1,
+              pageSize: 30
+            }
+          })
+        }
+       if (success) success(data)
+     }, res => {
+       if (fail) fail(res)
+    })
+  },
+  refreshWeb: function () {
+    this.data.webErrors.map(item => { item() })
+  },
+  clearErrMsg: function () {
+    store.action('update', {
+      errMsg: ''
+    })
+  },
+  onMyEvent: function (id) {
+    console.log(3333)
   }
 })

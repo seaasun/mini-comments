@@ -46,21 +46,21 @@ Page({
     }
   },
   getUserInfo: function(e) {
-    // console.log(e)
-    // app.globalData.userInfo = e.detail.userInfo
+    console.log('button', e)
+    app.globalData.userInfo = e.detail.userInfo
     // this.setData({
     //   userInfo: e.detail.userInfo,
     //   hasUserInfo: true
     // })
-    wx.login({
-      success (res) {
-        if (res.code) {
-          //发起网络请求
-         console.log(res)
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
+    // wx.login({
+    //   success (res) {
+    //     if (res.code) {
+    //       //发起网络请求
+    //      console.log(res)
+    //     } else {
+    //       console.log('登录失败！' + res.errMsg)
+    //     }
+    //   }
+    // })
   }
 })

@@ -48,9 +48,7 @@
 .comment-box {
   background-color: #ffffff;
   border-bottom: 1px solid #E5E5E5;
-  display: flex;
-  padding: 32rpx;
- 
+  display: flex; 
 }
 
 .comment-avatar {
@@ -60,6 +58,8 @@
   max-height: 64rpx;
   overflow: hidden;
   background-color: #DFDFDF;
+  padding-left: 32rpx;
+  padding-top: 32rpx;
 }
 .comment-main {
   margin-left: 32rpx;

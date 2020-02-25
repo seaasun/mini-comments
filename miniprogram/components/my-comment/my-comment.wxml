@@ -1,50 +1,64 @@
 <!--components/my-comment/my-comment.wxml-->
-<view class="comment-box">
+<view class="comment-box" wx:if="{{!isDelete}}">
     <view class="comment-avatar">
     </view>    
     <view class="comment-main">
         <view class="comment-brief">
             <view class="comment-brief-text">
-                好为·3小时前
+                <view class="comemnt-brief-nickname">
+                    {{comment.nickname}}·{{comment.creatFriendlyTime}}
+                </view>
+                <view wx:if="{{comment.top}}"
+                    class="comment-breif-top">
+                置顶</view>
             </view>
             <view class="comment-breif-good"
                     bindtap="doToggleGood">
                 <mp-icon wx:if="{{!toggleGooding}}" 
+                    size="24"
                     icon="like" color="#B2B2B2"></mp-icon>
                 <mp-icon icon="add"
                 color="#B2B2B2"
                 wx:if="{{toggleGooding}}"
+                size="24"
                 extClass="icon-rotate"></mp-icon>
+                <view class="comment-breif-good-point">
+                    {{comment.praisePoint}}</view>
             </view>    
         </view>  
-        <view class="comment-contnet">
-            这是一条评论
+        <view class="comment-contnet,{{comment.checked && states.isManager ? 'comment-box-opacity' : ''}}">
+            {{comment.content}}
         </view>
-        <view class="comment-actions">
+
+        <view wx:if="{{states.isManager}}" 
+            class="comment-actions">
             <view class="comment-actions-main">
-                <view class="comment-actions-item"
+                <view class="comment-actions-item comment-actions-item-first"
                     bindtap="writeAuthorComment">
                     回复</view>
                 <view class="comment-actions-item" 
-                    bindtap="addComment"
+                    bindtap="toggleCheck"
+                    wx:if="{{comment.checked && states.msgBoard.needCheck}}"
                     >
-                    <text wx:if="{{!showAddCommenting}}">加入精选</text>
+                    <text wx:if="{{!toggleChecking}}">加入精选</text>
                      <mp-icon icon="add"
                         color="#B2B2B2"
-                        wx:if="{{showAddCommenting}}"
+                        wx:if="{{toggleChecking}}"
                         extClass="icon-rotate"></mp-icon>
                 
                 </view>
                 <view class="comment-actions-item"
-                     bindtap="cancelComment">
-                    <text wx:if="{{!showCancelCommenting}}">取消精选</text>
+                     bindtap="toggleCheck"
+                     wx:if="{{!comment.checked && states.msgBoard.needCheck}}"
+                     >
+                    <text wx:if="{{!toggleChecking}}">取消精选</text>
                     <mp-icon icon="add"
                         color="#B2B2B2"
-                        wx:if="{{showCancelCommenting}}"
+                        wx:if="{{toggleChecking}}"
                         extClass="icon-rotate"></mp-icon>
                 </view>
             </view>
-            <view bindtap="showMoreActions">
+            <view bindtap="showMoreActions" class="comment-actions-more">
                <mp-icon wx:if="{{!actionMoring}}" icon="more"  color="#B2B2B2"></mp-icon>
                 <mp-icon icon="add"
                     color="#B2B2B2"
@@ -53,7 +67,17 @@
                 
             </view>
         </view>
-        <view class="comment-reply">
+
+         <view wx:if="{{isTheUserComment}}" 
+            class="comment-actions">
+            <view class="comment-actions-main">
+                <view class="comment-actions-item"
+                    bindtap="writeAuthorComment">
+                    删除</view>
+            </view>
+        </view>
+
+        <!-- <view class="comment-reply">
             <view class="comment-replay-main">
                 <view class="comment-brief,comment-reply-brief">
                     <view class="comment-brief-text">
@@ -61,10 +85,10 @@
                     </view>
                 </view> 
                 <view class="comment-contnet">
-                        这是一条评论
+                        这是一条评论{{errMsg}}
                 </view> 
             </view>
-        </view>          
+        </view>           -->
     </view>        
 </view>
 
@@ -79,14 +103,10 @@
 <view wx:if="{{showDeleteTip}}" 
     class="delete-tip-box">
     <view class="delete-tip-main">
-        <view class="delete-tip-text"
-            wx:if="{{deleteTipWating}}">
-            即将删除
-        </view>
         <view class="delete-tip-do"
             bindtap="cancelDeleteComment"
             wx:if="{{deleteTipWating}}">
-            点此撤销
+            点此取消删除
         </view>
 
         <view class="delete-tip-text"
@@ -103,5 +123,5 @@
             删除完成
         </view>
     </view>
-    <view class="delete-tip-progress"> 22</view>
+    <view class="delete-tip-progress"/>
 </view>

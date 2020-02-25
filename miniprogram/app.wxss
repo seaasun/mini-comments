@@ -1,5 +1,5 @@
-@import './weui-miniprogram/weui-wxss/dist/style/weui.wxss'
-/**app.wxss**/
+/* @import './weui-miniprogram/weui-wxss/dist/style/weui.wxss' */
+
 .wxml-box {
   background-color: #F4F4F4; 
   width: 100%;
@@ -26,4 +26,23 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.g-no-loader-more {
+  text-align: center;
+  margin-top: 164rpx;
+  color: #B2B2B2;
+}
+.g-no-loader-more:after
+{
+  content: "到底啦~";
+}
+
+.g-web-error {
+  text-align: center;
+  margin-top: 164rpx;
+  color: #B2B2B2;
+}
+.g-web-error-text {
+  margin-top: 32rpx;
 }

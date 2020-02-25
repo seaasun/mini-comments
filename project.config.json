@@ -2,7 +2,7 @@
 	"miniprogramRoot": "miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"enhance": true,
 		"postcss": true,
@@ -58,16 +58,17 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 1,
 					"name": "pages/comments/comments",
 					"pathName": "pages/comments/comments",
-					"query": "",
+					"query": "msgBoardId=1&isManager=1",
 					"scene": null
 				},
 				{
 					"id": 2,
 					"name": "pages/manager/manager",
 					"pathName": "pages/manager/manager",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -1,21 +1,52 @@
 // miniprogram/pages/manager/manager.js
+var user = require('../../features/user')
+var utils = require('../../utils/index')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    topics: [
-      {a: 1}, {b: 2}, {b: 2}, {b: 2}, {b: 2}
-    ],
-    paginations: [{index:1},{index:2}]
+    topics: [],
+    topicHasFirstLoad: false,
+    topicHasLoadError: false,
+    webErrors: [],
+    topiceMoreLoadding: false,
+    loaderMoreShowed: false,
+    noLoaderMoreShowed: false,
+    paginations: [{index:1},{index:2}],
+    pagination: {
+      pageNum: 1,
+      pageSize: 30
+    },
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.myDebug = this.data
+    this.onLoadFectTopices()
+  },
+  onLoadFectTopices: function () {
+    this.setData({
+      topicHasFirstLoad: false,
+      topicHasLoadError: false
+    })
+    this.fetchTopices(
+      () => {
+        this.setData({
+          topicHasFirstLoad: true
+        })
+      },
+      () => {
+        this.setData({
+          topicHasLoadError: true,
+          webErrors: [this.onLoadFectTopices]
+        })
+      }
+    )
   },
 
   /**
@@ -56,8 +87,28 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-
+  onReachBottom: function (event) {
+    if (this.data.loaderMoreShowed || this.data.noLoaderMoreShowed) return
+    this.setData({
+      loaderMoreShowed: true,
+      topicHasLoadError: false
+    })
+    this.fetchTopices(data => {
+      this.setData({
+        loaderMoreShowed: false
+      })
+      if (data.length === 0) {
+        this.setData({
+          noLoaderMoreShowed: true
+        })
+      }
+    }, () => {
+      this.setData({
+        loaderMoreShowed: false,
+        topicHasLoadError: true,
+          webErrors: [this.onReachBottom]
+      })
+    })
   },
 
   /**
@@ -65,5 +116,33 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  fetchTopices: function (success, fail) {
+    wx.myRequests.msgBoardAdminList({
+      ...this.data.pagination
+     },data => {
+        if (data.length > 0) {
+          data = data.map(item => {
+            item.creatFriendlyTime = utils.getFriendlyTime(new Date(item.createdTime))
+            item.lastFriendlyTime = utils.getFriendlyTime(new Date(item.updatedTime))
+            return item
+          })
+          
+          this.setData({
+            topics: this.data.topics.concat(data),
+            pagination: {
+              pageNum: this.data.pagination.pageNum + 1,
+              pageSize: 30
+            }
+          })
+        }
+       
+       if (success) success(data)
+     }, res => {
+       if (fail) fail(res)
+    })
+  },
+  refreshWeb: function () {
+    this.data.webErrors.map(item => { item() })
   }
 })

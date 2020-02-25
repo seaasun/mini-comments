@@ -1,5 +1,5 @@
 /* components/my-loading/my-loading.wxss */
-.lds-ring {
+/* .lds-ring {
     display: inline-block;
     position: relative;
   }
@@ -32,4 +32,4 @@
       transform: rotate(360deg);
     }
   }
-  
+   */

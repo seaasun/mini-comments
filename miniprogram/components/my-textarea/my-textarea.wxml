@@ -9,26 +9,35 @@
         </view>
     </view>
 </view>    
-<view class="input-box"
+<!-- <half-screen-dialog show="{{states.isInputComment}}" 
+    bind:close="commentNotFocusInput"
+    extClass="textarea-dialog"
+   maskClosable="{{false}}"
+    mask="{{true}}"
+    >
+
+    <view slot ="title">写留言</view> -->
+    
+<view class="textarea-box"
     wx:if="{{states.isInputComment}}">
     <view
-          class="input-main"
-          style="padding-bottom:{{textBottom}};">
-          <view class="input-main-brief">
-                <view class="input-breif-text">写留言：</view>
-                <view class="intpu-brief-hidden" 
-                    bindtap="commentNotFocusInput">
-                     <mp-icon icon="close" color="#B2B2B2"></mp-icon>
-                </view>  
-          </view>    
-       
+        slot="desc"
+        class="input-main"
+        style="padding-bottom:{{textBottom}};">
+        <view class="input-main-brief">
+            <view class="input-breif-text">{{textareaBrief}}：</view>
+            <view class="intpu-brief-hidden" 
+                bindtap="commentNotFocusInput">
+                    <mp-icon icon="close" color="#B2B2B2" size="20"></mp-icon>
+            </view>  
+        </view>    
         <textarea class="input-textarea"
                value="{{currentComment}}"
                style="max-height: {{textMaxHeight}}"
-               placeholder="{{display.inputPlaceholder}}"
+               placeholder="{{inputPlaceholder}}"
                placeholder-class="input-input-placeholder"
-               focus="{{states.isInputComment}}"
                fixed
+               auto-focus="{{true}}"
                show-confirm-bar="{{false}}"
                adjust-position="{{false}}"
                disable-default-padding
@@ -36,16 +45,38 @@
                confirm-type="done"
                confirm-hold="{{true}}"
                hold-keyboard="{{true}}"
+               bindfocus="focusedTextarea"
                bindinput="updateCurrentComment"
                bindkeyboardheightchange="commentHeightUpdate"
                ></textarea>
         <view class="input-action">
-            <view  class="input-action-emoj">
-                <mp-icon icon="sticker" color="#B2B2B2"></mp-icon>
+            <view  class="input-action-emoj" bindtap="showEmoji">
+                <mp-icon icon="sticker" color="#B2B2B2" size="32"></mp-icon>
             </view>
-            <view class="input-action-send">
-                发布
+            <view
+                bindtap="send"
+                class="input-action-send">
+                <view wx:if="{{!sending}}">发布</view>
+                <view wx:if="{{sending}}">发布中</view>
             </view>
         </view>
-    </view>        
+        <scroll-view wx:if="{{emojiShowed}}"
+                scroll-y
+                style="height:300px;">
+                <view class="emoji-box">
+            <view wx:for="{{emojis}}" 
+                class="emoji-select"
+                bindtap="addEmoji"
+                data-emoji-index = "{{index}}"
+                wx:key="index">{{item}}</view>
+                </view>
+        </scroll-view>  
+    </view>    
+      
 </view>    
+<!-- </half-screen-dialog> -->
+
+<view wx:if="{{successMsg}}" 
+    class="success-tip-box">
+   {{successMsg}}
+</view>

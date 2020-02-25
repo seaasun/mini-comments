@@ -8,22 +8,28 @@
     display: flex;
     box-shadow: 0 -1rpx 2px 2px #eeeeee
   }
-
+.textarea-box {
+    position: fixed;
+    bottom: 0;
+    background-color: #ffffff;
+    width: 100%;
+    box-shadow: 0 -1rpx 2px 2px #eeeeee
+}
 .input-display {
     width: 100%;
 }  
   
 .input-display-text {
-    padding: 24rpx 32rpx;
+    padding: 32rpx 32rpx;
     flex:1;
     margin-left: 16rpx;
     margin-right: 16rpx;
     border-radius: 8rpx;
 }
 
+
 .input-main {
-    width: 100%;
-    padding: 0 24rpx 16rpx 24rpx;
+    padding: 0 0 16rpx 0;
 }
 
 .input-main-brief {
@@ -33,26 +39,76 @@
 
 .input-breif-text {
     color: #B2B2B2;
-    padding: 16rpx 16rpx 16rpx 0
+    padding: 24rpx
 }
 .intpu-brief-hidden {
-    padding: 16rpx 0 16rpx 16rpx
+    padding: 24rpx 24rpx 24rpx 64rpx
 }
 
 .input-textarea {
     width: 100%;
-    padding: 0 0 24rpx 0;
+    padding: 0 24rpx 24rpx 24rpx;
 }
 
 .input-action {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    padding: 0;
+    background-color:  #F4F4F4;
 }
 
 .input-action-emoj {
-    padding: 24rpx 24rpx 24rpx 0;
+    padding: 24rpx 64rpx 24rpx 24rpx;
 }
 .input-action-send {
     color: #07c160;
-    padding: 24rpx 0 24rpx 24rpx;
+    padding: 24rpx 24rpx 24rpx 64rpx;
+    size: 32px;
+}
+
+.emoji-box {
+    width: 100%;
+    background-color: #F4F4F4;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.emoji-select {
+    font-size:56rpx;
+    padding: 12rpx;
+    flex:0 0 80rpx;
+}
+
+.textarea-dialog {
+    padding: 0
+}
+
+.textarea-dialog .weui-half-screen-dialog__ft{
+    padding: 0
+}
+
+.success-tip-box {
+    position:fixed;
+    -webkit-transform:translateZ(0) translateY(calc(-100% - 8px));
+    transform:translateZ(0) translateY(calc(-100% - 8px));
+    
+    top:32px;
+    left:16px;
+    right:16px;
+    border-radius:4px;
+    text-align: center;
+    padding:8px;
+    
+    -webkit-border-radius:4px;
+    font-size:17px;
+    line-height:1.4;
+    z-index:5000;
+    word-wrap:break-word;
+    word-break:break-all;
+    color: #000000;
+    background-color: #07c160;
+    -webkit-transition:all .4s ease-in-out;
+    transition:all .4s ease-in-out;
+    -webkit-transform:translateZ(0) translateY(0);transform:translateZ(0) translateY(0);opacity:1   
 }

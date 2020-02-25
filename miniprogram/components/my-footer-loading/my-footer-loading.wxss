@@ -1,0 +1,12 @@
+/* components/my-page-loading/my-page-loading.wxss */
+
+.comment-loadding {
+    margin-top: 164rpx;
+    
+  }
+.comment-loadding-text {
+    text-align: center;
+    margin-top: 32rpx;
+    color: #B2B2B2;
+}
+  

@@ -9,9 +9,14 @@
                 <view class="manager-status">话题数 22</view>
             </view>    
         </view>
-        <my-page-loading></my-page-loading>
-        <view class="topic-lists">
-            <view class="topic-box">
+
+        <my-page-loading wx:if="{{!topicHasFirstLoad && !topicHasLoadError}}"/>
+
+        <view wx:if="{{topicHasFirstLoad}}" 
+            class="topic-lists">
+
+            <view wx:if="{{ topics.length === 0 && !topicHasLoadError}}" 
+                class="topic-box">
                 <view class="topic-time">
                     还没您的留言板
                 </view>
@@ -22,29 +27,30 @@
                 <view class="go-create-topic-brief">
                     亦可在电脑端创建留言板
                 </view>    
-            </view>    
-            <view wx:for="{{topics}}" class="topic-box">
+            </view>
+
+            <view wx:for="{{topics}}" wx:key="id" class="topic-box">
                 <view class="topic-time">
-                    两天前创建
+                    {{item.creatFriendlyTime}}
                 </view>
                 <navigator class="topic-item">
                     <view class="topic-main">
                         <view class="topic-text text-clip-2">
-                            这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题
+                            {{item.title}}
                         </view>
                         <view class="topic-brief">
                             <view class="topic-breif-item">
-                                新评论 2天前
+                                新评论 {{item.lastFriendlyTime}}
                             </view>
                             <view class="topic-breif-item">
-                                评论 21
+                                评论 {{item.msgQtyForCommenter}}
                             </view>       
                         </view> 
                     </view>
                     <view class="topic-image"></view>
                 </navigator>
-                
             </view>    
+            
         </view>
         <!-- <view class="pagination-box">
             <view class="pagination-prev">前一页</view>
@@ -57,7 +63,18 @@
             </view>
             <view class="pagination-next">后一页</view>
         </view> -->
+
+        <view wx:if ="{{topicHasLoadError}}" 
+            bindtap="refreshWeb"
+            class='g-web-error'>
+             <mp-icon icon="refresh" size="32" color="#B2B2B2"/>
+            <view class='g-web-error-text'>网络错误，点击重试</view>
+        </view>
+
     </view>
+    <view wx:if="{{noLoaderMoreShowed}}" 
+        class="g-no-loader-more" />
+    <my-footer-loading wx:if="{{loaderMoreShowed}}" />
     <my-footer></my-footer>
 </view>
 

@@ -16,6 +16,7 @@
   "sitemapLocation": "sitemap.json",
   
   "usingComponents": {
-    "my-footer": "components/my-footer/my-footer"
+    "my-footer": "components/my-footer/my-footer",
+    "my-footer-loading": "components/my-footer-loading/my-footer-loading"
   }
 }
