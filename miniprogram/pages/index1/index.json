@@ -1,5 +1,0 @@
-{
-  "usingComponents": {
-    "pulltorefresh-view": "../../components/wx-pulltorefresh-view/wx-pulltorefresh-view"
-  }
-}
