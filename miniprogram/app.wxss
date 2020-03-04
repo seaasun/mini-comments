@@ -46,3 +46,13 @@
 .g-web-error-text {
   margin-top: 32rpx;
 }
+
+.g-input-display-button {
+  border: none;
+  background-color: #ffffff;
+  font-weight: normal;
+  text-align: left;
+  border-radius: 0;
+}  
+.g-input-display-button::after{ border: none; }
+.g-input-display-button:after{ border: none; }

@@ -61,7 +61,7 @@
 					"id": 1,
 					"name": "pages/comments/comments",
 					"pathName": "pages/comments/comments",
-					"query": "msgBoardId=1&isManager=1",
+					"query": "msgBoardId=1",
 					"scene": null
 				},
 				{

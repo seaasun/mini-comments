@@ -39,16 +39,22 @@
 .comment-write {
   color: #07c160;
   padding: 32rpx;
+  flex: 0 0 160rpx;
+  margin: 0;
+  font-size: 32rpx;
 }
 
 .comment-text {
   padding: 32rpx;
+  flex: 1;
 }
 
 .comment-box {
   background-color: #ffffff;
   border-bottom: 1px solid #E5E5E5;
   display: flex; 
+  margin-left: 24rpx;
+  margin-right: 24rpx;
 }
 
 .comment-avatar {
@@ -78,12 +84,16 @@
   flex-direction: column;
   align-items: center;
   margin-top: 16rpx;
+  margin-bottom: 32rpx;
+  margin-left: 16rpx;
   padding: 108rpx 32rpx;
   background-color: #F4F4F4;
 }
 .first-comment-text {
   margin-left: 16rpx;
   font-size: 32rpx;
+  text-align: center;
+  background-color: #F4F4F4;
 }
 
 .comment-brief-preview {

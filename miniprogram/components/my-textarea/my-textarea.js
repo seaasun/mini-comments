@@ -1,5 +1,6 @@
 // components/my-textarea/my-textarea.js
 var store = require('../../store')
+var user = require('../../features/user')
 
 Component({
   /**
@@ -191,6 +192,9 @@ Component({
           })
         }
       )
+    },
+    getUserInfo: function (event) {
+     user.setUserInfoInComment(event)
     }
   }
 })

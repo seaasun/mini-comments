@@ -1,3 +1,5 @@
+let utils = require('../utils/index')
+
 let options = {
     messageAdminAuthorReplay: {
         url: 'wx/ma/message/admin/author/replay',
@@ -63,12 +65,12 @@ let options = {
     userInfo: {
         url: 'wx/ma/user/info',
         method: 'get',
-        mock: true
+        mock: false
     },
     userLogin: {
         url: 'wx/ma/user/login',
         method: 'get',
-        mock: true
+        mock: false
     },
     userPhone: {
         url: 'wx/ma/user/phone',
@@ -78,36 +80,49 @@ let options = {
     
 }
 
+// 存储sessionId
+let sessionId = null
+
 function getUrl (item) {
     if (item.mock) {
         return 'http://rap2.taobao.org:38080/app/mock/245416/'
     } else {
-        return 'http://39.106.115.205/'
+        return 'https://www.tinyideatech.com/'
     }
 
 }
 function request (item, data, success, fail) {
-    wx.request({
-        url: getUrl(item) + item.url,
-        method: item.method,
-        data,
-        header: {},
-        timeout: 5000,
-        success (res) {
+    return new Promise((resolve, reject) => {
+        utils.wxRequest({
+            url: getUrl(item) + item.url,
+            method: item.method,
+            data,
+            header: {
+                "content-type": "application/json",
+                sessionId,
+                "dvdvdefefef": 1
+            },
+            timeout: 5000,
+        }).then(res => {
+            
             if (res.data.success) {
                 if (item.isDataBoolean && !res.data.data) {
-                    fail(res.data)
+                    typeof fail === 'function' && fail(res.data)
+                    reject(res.data)
                 } else {
-                    success(res.data.data)
+                    typeof success === 'function' && success(res.data.data)
+                    resolve(res.data.data)
+
                 }
             } else {
-                fail(res.data)
+                typeof fail === 'function' && fail(res.data)
+                reject(res.data)
             }
-        },
-        fail (res) {
+        }).catch(res => {
             fail(res.data)
-        }
+        })
     })
+    
 }
 function getRequests() {
     let api = {}
@@ -117,11 +132,23 @@ function getRequests() {
             if (item.delay) {
                 setTimeout(() => request(item, data, success, fail), item.delay)
             } else {
-                request(item, data, success, fail)
+                return request(item, data, success, fail)
             }
         }
     })
     return api
 }
 
-module.exports.getRequests = getRequests
+function setSeesion (session) {
+    sessionId = session
+}
+
+function getSessionId (session) {
+    return sessionId
+}
+
+module.exports = {
+    setSeesion,
+    getSessionId,
+    getRequests
+}

@@ -1,6 +1,8 @@
 // miniprogram/pages/comments/comments.js
 var store = require('../../store')
 var utils = require('../../utils/index')
+var user = require('../../features/user')
+
 
 Page({
 
@@ -22,7 +24,7 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 生命周期函数--监听页面加载setUserInfoByButton
    */
   onLoad: function (options) {
     wx.myDebug = this.data
@@ -37,6 +39,13 @@ Page({
       this.onLoadFecthMsgBoard()
     }
     this.onLoadFetchComments()
+    user.login()
+      .then(res => {
+        return user.setUserInfo(res.sessionId)
+      })
+      .then(res => {
+        console.log(1999, res)
+      })
   },
   onLoadFecthMsgBoard: function () {
     wx.myRequests.msgBoardOne({
@@ -185,5 +194,9 @@ Page({
   },
   onMyEvent: function (id) {
     console.log(3333)
-  }
+  },
+  getUserInfo: function (event) {
+    console.log(555, event)
+    user.setUserInfoInComment(event)
+   }
 })

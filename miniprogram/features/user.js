@@ -1,31 +1,140 @@
-function login () {
-    // 登录
-    wx.login({
-        success: res => {
-          // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        }
-      })
-    // 获取用户信息
-    wx.getSetting({
-    success: res => {
-        if (res.authSetting['scope.userInfo']) {
-        // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-        wx.getUserInfo({
-            success: res => {
-            console.log('userInfo', res)
-            // 可以将 res 发送给后台解码出 unionId
-            this.globalData.userInfo = res.userInfo
+let accountInfo = {}
+let store = require('../store')
+let request = require('../requests/request')
+let utils = require('../utils/index')
 
-            // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-            // 所以此处加入 callback 以防止这种情况
-            if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-            }
-            }
+function setUserInfoByButton (res, doAfterAuth) {
+  console.log(4444,res)
+  if (!res.userInfo) {
+    return Promise.reject({
+      userNoAuth: true
+    })
+  }
+  let sessionKey = request.getSessionId()
+  console.log()
+  if (typeof doAfterAuth === 'function') {
+    console.log('33333')
+    doAfterAuth(res)
+  }
+  
+}
+
+function setUserInfoInComment (event) {
+  console.log(444, event)
+  if (!event.detail || !event.detail.userInfo) {
+    wx.showModal({
+      title: '需要授权',
+      content: '授权小程序后，才可留言哦~',
+      showCancel: false
+    })
+    return
+  }
+
+  store.action('update', {
+    isInputComment: true,
+  })
+
+  let sessionKey = request.getSessionId()
+  // TODO@Maxiao sessionKey 错误处理
+  return wx.myRequests.userInfo({
+    sessionKey,
+    ...event.detail
+  })
+}
+
+// 本地存用户信息 + 后端设置用户信息
+// return promise
+function setUserInfo (sessionKey) {
+  return utils.wxGetSetting()
+    // 1. 检查用户授权
+    .then(res => {
+      if (res.authSetting['scope.userInfo']) {
+        store.action('update', {
+          isAuth: true
         })
-        }
-    }
+        return Promise.resolve()
+      } else {
+        console.log('[fail]未得到用户授权')
+        return Promise.reject()
+      }
+    })
+    // 2. 获取wx用户信息
+    .then(res => {
+      return utils.wxGetUserInfo()
+    })
+    .then (res => {
+      accountInfo = res
+
+      // 3. 本地存用户信息
+      store.action('updateUser', {
+        ...res.userInfo
+      })
+
+      // 4. 发送后端Yoon和信息
+      return wx.myRequests.userInfo({
+        sessionKey,
+        ...res
+      })
+    })
+    .catch(res => {
+      console.log('[fail]未能设置用户信息')
+      return Promise.reject(res)
     })
 }
 
-module.exports.login = login
+// 读取缓存中的sessionId + 微信登陆 + 后端登陆 + 存seesion
+// return promise
+function login () {
+  try {
+    let value = wx.getStorageSync('sessionId')
+    if (value) {
+      return Promise.resolve({
+        sessionId: value,
+        useStorage: true
+      })
+    }
+  } catch (e) {
+    console.log('[fail]读取本地seesionId失败')
+  }
+  
+  return utils.wxLogin()
+    .then(res => {
+      return wx.myRequests.userLogin({
+        code: res.code
+      })
+    })
+    .then (res => {
+      store.action('update', {
+        isLogin: true
+      })
+      wx.setStorage({
+        key: 'sessionId',
+        data: res.sessionId
+      })
+      request.setSeesion(res.sessionId)
+
+      return Promise.resolve(res)
+    })
+    .catch(res => {
+      console.log('[fail]用户登陆失败')
+      return Promise.reject(res)
+    })
+}
+
+function getIsLogin() {
+  return store.states.isLogin
+}
+
+function getIsAuth() {
+  return store.states.isAuth
+}
+
+module.exports = {
+  setUserInfo,
+  login,
+  accountInfo,
+  getIsLogin,
+  getIsAuth,
+  setUserInfoByButton,
+  setUserInfoInComment
+}

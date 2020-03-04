@@ -9,6 +9,9 @@ let states = {
     },
     isManager: false, // 是管理员
     errMsg: '', // 错误提示
+    user: {}, // 用户信息
+    isLogin: false, // 是否登陆
+    isAuth: false, // 用户是否被授权
 }
 
 // actions 列表
@@ -27,10 +30,22 @@ let actions = {
                 ...payload
             }
         }
+    },
+    updateUser (payload) {
+        return {
+            ...states,
+            user: {
+                ...states.user,
+                ...payload
+            }
+        }
     }
 }
 
 function subject (self) {
+    self.setData({
+        states
+    })
     subjects.push(function (states) {
         self.setData({
             states
@@ -44,7 +59,7 @@ function action (type, payload) {
     subjects.forEach(function(item) {
         item(states)
     })
-    console.log(wx.myDebug)
+    console.log('[store]new action /n', payload, wx.myDebug)
 }
 
 module.exports.action = action

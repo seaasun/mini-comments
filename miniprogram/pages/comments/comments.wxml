@@ -17,9 +17,15 @@
                 <view class="comment-text">
                     {{states.msgBoard.needCheck === 1 ? '精选留言' : '即时留言'}} {{states.msgBoard.msgQtyForCommenter}}    
                 </view>
-                <view class="comment-write"
+                <button class="g-input-display-button comment-write"
                     bindtap="writeComment"
-                    >写留言</view>
+                    wx:if = "{{states.isAuth}}"
+                    >写留言</button>
+                <button wx:if = "{{!states.isAuth}}"
+                    open-type="getUserInfo"
+                    bindgetuserinfo="getUserInfo"
+                    class="g-input-display-button comment-write">
+                    写留言</button>
             </view>
 
             <view wx:if="{{ comments.length === 0 && !commentsHasLoadError}}"
@@ -30,11 +36,19 @@
                     <view class="comment-brief"> 
                         邀你写第一份留言
                     </view>
-                    <view class="first-comment"  
-                        bindtap="writeComment">
+                    <view class="first-comment">
                         <mp-icon icon="pencil" color="#B2B2B2" size="64"></mp-icon>
-                        <view class="first-comment-text">写留言</view>
+                        <button class="g-input-display-button first-comment-text"
+                            bindtap="writeComment"
+                            wx:if = "{{states.isAuth}}"
+                            >写留言1</button>
+                        <button wx:if = "{{!states.isAuth}}"
+                            open-type="getUserInfo"
+                            bindgetuserinfo="getUserInfo"
+                            class="g-input-display-button first-comment-text">
+                            写留言2</button>
                     </view>
+                    
                 </view>
             </view>           
             <my-comment wx:for="{{comments}}"

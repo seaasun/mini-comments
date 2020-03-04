@@ -217,6 +217,9 @@ Component({
       this.setData({
         'moreActions[0].text': this.data.comment.top ? '取消置顶' : '置顶'
       })
+    },
+    getUserInfo () {
+      
     }
   }
 })

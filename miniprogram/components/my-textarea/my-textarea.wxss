@@ -6,7 +6,8 @@
     background-color: #ffffff;
     width: 100%;
     display: flex;
-    box-shadow: 0 -1rpx 2px 2px #eeeeee
+    box-shadow: 0 -1rpx 2px 2px #eeeeee;
+    width: 100%;
   }
 .textarea-box {
     position: fixed;
@@ -18,6 +19,10 @@
 .input-display {
     width: 100%;
 }  
+.input-display-button {
+    width: 100%;
+    flex: 1;
+}
   
 .input-display-text {
     padding: 32rpx 32rpx;

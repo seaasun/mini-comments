@@ -1,14 +1,21 @@
 <view class="input-box" 
-        wx:if="{{!states.isInputComment}}"
+        wx:if="{{!states.isInputComment && states.isAuth}}"
         bindtap="commentFocusInput">
     <view 
          bindtap="commentFocusInput"
+         wx:if="{{states.isAuth}}"  
         class="input-display">     
         <view class="text-clip input-display-text">
             {{currentComment ? currentComment : '说点什么...'}}
         </view>
     </view>
-</view>    
+     
+</view>
+<view class="input-box" wx:if="{{!states.isInputComment && !states.isAuth}}">
+    <button open-type="getUserInfo" 
+        bindgetuserinfo="getUserInfo"
+        class="g-input-display-button input-display "> 说点什么 </button>
+</view>      
 <!-- <half-screen-dialog show="{{states.isInputComment}}" 
     bind:close="commentNotFocusInput"
     extClass="textarea-dialog"

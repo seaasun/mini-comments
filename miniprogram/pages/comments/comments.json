@@ -3,7 +3,6 @@
   "enablePullDownRefresh": true,
   "onReachBottomDistance": 500,
   "usingComponents": {
-    "pulltorefresh-view": "../../components/wx-pulltorefresh-view/wx-pulltorefresh-view",
     "my-comment": "../../components/my-comment/my-comment",
     "my-textarea": "../../components/my-textarea/my-textarea",
     "my-pull": "../../components/my-pull/my-pull",
