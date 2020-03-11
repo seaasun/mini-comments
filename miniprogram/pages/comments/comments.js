@@ -27,6 +27,7 @@ Page({
    * 生命周期函数--监听页面加载setUserInfoByButton
    */
   onLoad: function (options) {
+    console.log(options)
     wx.myDebug = this.data
     store.subject(this)
     store.action('update', {
@@ -36,12 +37,14 @@ Page({
       store.action('updateMsgboard', {
         id: options.msgBoardId
       })
-      this.onLoadFecthMsgBoard()
+      
     }
-    this.onLoadFetchComments()
+
     user.login()
       .then(res => {
-        return user.setUserInfo(res.sessionId)
+        this.onLoadFecthMsgBoard()
+        this.onLoadFetchComments()
+        return user.setUserInfo()
       })
       .then(res => {
         console.log(1999, res)
@@ -49,7 +52,7 @@ Page({
   },
   onLoadFecthMsgBoard: function () {
     wx.myRequests.msgBoardOne({
-      id:this.data.states.msgBoard.id
+      id :this.data.states.msgBoard.id,
     }, data => {
       store.action('update', {
         msgBoard: data
@@ -162,6 +165,7 @@ Page({
   },
   fetchComments: function (success, fail) {
     wx.myRequests.messageList({
+      msgBoardId  :this.data.states.msgBoard.id,
       ...this.data.pagination
       },data => {
         if (data.length > 0) {

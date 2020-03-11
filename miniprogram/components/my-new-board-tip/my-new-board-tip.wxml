@@ -1,0 +1,41 @@
+<!--components/my-new-board-tip/my-new-board-tip.wxml-->
+ <view 
+    class="topic-box">
+    <view class="topic-time">
+        还没您的留言板
+    </view>
+    <view>
+        <view class="pc-tip-title">去电脑控制台</view>
+        <view class="pc-tip-title">创建留言板</view>
+        <view class="tip-image-box">
+            <image src="./去电脑端标志.png" mode="aspectFit" class="tip-image"/>
+        </view>
+        <view class="pc-tip-text">
+            访问链接，并按提示操作
+        </view>
+        <view class="pc-tip-link-box">
+            <view class="pc-tip-link">
+                www.tinyideatech.com/ui
+            </view>
+        </view>    
+        <button class="btn" type="primary"  bindtap="onCopy" class="copyt-btn">
+            复制链接到接贴板
+        </button>
+
+    </view>
+    <view class="brief-box">
+        <view class="go-create-topic-brief">
+            <text>免费使用 </text>
+            <text>即时留言 </text>
+            <text>融入微信生态 </text>
+        </view>    
+    </view>
+    <!-- <mp-toptips msg="{{errorMsg}}" 
+        type="error" 
+        show="{{errorMsg}}" 
+        bindhide="onErrorMsgHide" />
+    <mp-toptips msg="{{successMsg}}" 
+        type="success" 
+        show="{{successMsg}}"
+        bindhide="onSuccessMsgHide" /> -->
+</view>

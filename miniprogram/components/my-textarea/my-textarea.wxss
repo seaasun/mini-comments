@@ -16,6 +16,17 @@
     width: 100%;
     box-shadow: 0 -1rpx 2px 2px #eeeeee
 }
+.textarea-box.show {
+    visibility:visible;
+    transform: translateY(0%);
+    transition: .3s;
+}
+.textarea-box.hide {
+    visibility:hidden;
+    transform: translateY(70%);
+    transition: .3s;
+    box-shadow: 0 0 0 0 #ffffff
+}
 .input-display {
     width: 100%;
 }  
@@ -31,7 +42,6 @@
     margin-right: 16rpx;
     border-radius: 8rpx;
 }
-
 
 .input-main {
     padding: 0 0 16rpx 0;

@@ -1,6 +1,7 @@
 // miniprogram/pages/manager/manager.js
 var user = require('../../features/user')
 var utils = require('../../utils/index')
+var store = require('../../store')
 
 Page({
 
@@ -8,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loginStatus: 'authing', // authing: 正在登陆/授权； unAuth: 未授权； hasAuth: 已授权
     topics: [],
     topicHasFirstLoad: false,
     topicHasLoadError: false,
@@ -26,8 +28,29 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    store.subject(this)
     wx.myDebug = this.data
-    this.onLoadFectTopices()
+
+    user.login()
+    .then(() => {
+        return user.setUserInfo()
+      }
+    ).then(() => {
+      this.setData({
+        loginStatus: 'hasAuth'
+      })
+      this.onLoadFectTopices()
+    }).catch(resp => {
+      console.log(333)
+      if (resp === '[fail]未得到用户授权') {
+        this.setData({
+          loginStatus: 'unAuth'
+        })
+      } else {
+        console.log(resp)
+      }
+    })
+    
   },
   onLoadFectTopices: function () {
     this.setData({
@@ -144,5 +167,15 @@ Page({
   },
   refreshWeb: function () {
     this.data.webErrors.map(item => { item() })
+  },
+  onHasAuth() {
+    this.setData({
+      loginStatus: 'hasAuth'
+    })
+    this.onLoadFectTopices()
+  },
+  goComment (e) {
+    console.log(e)
+    wx.navigateTo({url:`/pages/comments/comments?msgBoardId=${e.currentTarget.dataset.commentId}`})
   }
 })

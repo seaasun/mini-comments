@@ -21,6 +21,7 @@ const wxApis = {
     wxGetSetting: (data) => promisify(wx.getSetting)(data),
     wxGetUserInfo: (data) => promisify(wx.getUserInfo)(data),
     wxGetStorage: (data) => promisify(wx.getStorage)(data),
+    wxSetClipboardData: (data) => promisify(wx.setClipboardData)(data)
 }
 
 export {

@@ -1,0 +1,24 @@
+/* components/my-landing/my-landing.wxss */
+.info-box {
+    width: 100%;
+}
+
+.info-box-image {
+    width: 100%;
+}
+
+.info-btn-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 256rpx;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.5);
+
+}
+.info-btn {
+    height: 40px;
+}

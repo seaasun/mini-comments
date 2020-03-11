@@ -1,0 +1,15 @@
+<!--components/my-landing/my-landing.wxml-->
+<view class="wxml-main">
+    <view class="info-box">
+        <image src = "./畅言介绍.png"
+        mode ="widthFix"
+            class = "info-box-image"/>
+    </view>
+    <view class = "info-btn-box">
+        <button open-type="getUserInfo" 
+            bindgetuserinfo="getUserInfo"
+            type="primary"
+            class="info-btn ">立即使用
+        </button>
+    </view>
+</view>

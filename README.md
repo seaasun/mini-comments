@@ -10,7 +10,8 @@
 
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
 
-
+# 节目流程
+如果管理员未注册，或者没有留言表，进入宣传页
 
 ## 对weiui的改动
 ### 添加icon-rotate增加旋转
@@ -34,6 +35,7 @@
 4. font-highlight
 5. font-light #B2B2B2
 6. font-bordr #E5E5E5
+8. font-blode #333
 7. link #586C94
 8. image-backgroud #DFDFDF
 9. error #E64340

@@ -29,12 +29,12 @@ let options = {
         url: 'wx/ma/message/create',
         method: 'post',
         isDataBoolean: true,
-        mock: true
+        mock: false
     },
     messageList: {
         url: 'wx/ma/message/list',
         method: 'get',
-        mock: true,
+        mock: false,
     },
     messagePraise: {
         url: 'wx/ma/message/praise',
@@ -45,7 +45,7 @@ let options = {
     msgBoardAdminList: {
         url: 'wx/ma/msgBoard/admin/list',
         method: 'get',
-        mock: true,
+        mock: false,
     },
     msgBoardCommenterList: {
         url: 'wx/ma/msgBoard/commenter/list',
@@ -53,9 +53,9 @@ let options = {
         mock: true
     },
     msgBoardOne: {
-        url: 'wx/ma/msgBoard/one',
+        url: 'wx/ma/msgBoard/queryById',
         method: 'get',
-        mock: true
+        mock: false
     },
     portal: {
         url: 'wx/ma/portal',
@@ -92,6 +92,7 @@ function getUrl (item) {
 
 }
 function request (item, data, success, fail) {
+    console.log('sessionId', sessionId)
     return new Promise((resolve, reject) => {
         utils.wxRequest({
             url: getUrl(item) + item.url,
@@ -99,8 +100,7 @@ function request (item, data, success, fail) {
             data,
             header: {
                 "content-type": "application/json",
-                sessionId,
-                "dvdvdefefef": 1
+                ... sessionId && { sessionId },
             },
             timeout: 5000,
         }).then(res => {
@@ -140,10 +140,11 @@ function getRequests() {
 }
 
 function setSeesion (session) {
+    console.log(33, session)
     sessionId = session
 }
 
-function getSessionId (session) {
+function getSessionId () {
     return sessionId
 }
 

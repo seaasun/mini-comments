@@ -14,27 +14,59 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isInputComment: false,
-    sending: false,
-    currentComment: "",
-    currenInputComment: "",
-    textBottom: 0,
-    textMaxHeight: '128rpx',
-    textAutoHeight: true,
+    sending: false, // 消息是否在发送中
+    currentComment: "", // 用户输入的评论
+    textareaBrief: '留言',
+    inputPlaceholder: '留言',
+    successMsg: '',
     states: store.states,
+
+    // emoji 相关
     emojis: ['😀','😁','😂','😃','😄','😅','😆','😉','😊','😋','😎','😍','😘','😗','😙','😚','😇','😐','😑','😶','😏','😣','😥','😮','😯','😪','😫','😴','😌','😛','😜','😝','😒','😓','😔','😕','😲','😷','😖','😞','😟','😤','😢','😭','😦','😧','😨','😬','😰','😱','😳','😵','😡','😠'],
     emojiShowed: false,
     emojiHeight: 0,
-    textareaBrief: '留言',
-    inputPlaceholder: '留言',
-    successMsg: ''
+
+    // textareae 弹出高度相关
+    textBottom: 0,
+    textMaxHeight: '128rpx',
+    textFoucs: false,
+   
   },
   lifetimes: {
     created: function () {
+      console.log(this.setData)
       store.subject(this)
     }
   },
   observers: {
+    'textFoucs' (value) {
+      console.log(999999, value)
+    },
+    'states.isInputComment, emojiShowed' (isInputComment, emojiShowed) {
+      if (isInputComment === false) {
+        if (this.data.textFoucs !== false) {
+           this.setData({
+          textFoucs: false
+        })
+        }
+       
+      } else {
+        if (emojiShowed) {
+          if (this.data.textFoucs !== false) {
+            this.setData({
+           textFoucs: false
+         })
+         }
+        } else {
+          if (this.data.textFoucs !== true) {
+            this.setData({
+           textFoucs: true
+         })
+         }
+        }
+      }
+      
+    },
     'states.replayId, states.msgBoard.needCheck' (replayId, needCheck) {
       let dict = {
         replay: {
@@ -81,7 +113,8 @@ Component({
         currenInputComment: this.data.currentComment
       })
     },
-    commentNotFocusInput: function () {
+    onCloseTextare: function () {
+      this.setData({textFoucs: false})
       store.action('update', {
         isInputComment: false,
         replayId: 0
@@ -89,6 +122,7 @@ Component({
     },
     
     commentHeightUpdate:function (event) {
+      console.log(9999, event.detail.height, this.data.emojiShowed)
       // 软键盘缩小后，键盘不变化
       if (event.detail.height === 0) {
         // this.setData({
@@ -103,10 +137,15 @@ Component({
           emojiHeight: event.detail.height + 'px',
         })
       }
+      if (this.data.emojiShowed && event.detail.height > 0) {
+        console.log(9991)
+        this.setData({
+          emojiHeight: 0,
+        })
+      }
     },
 
     updateCurrentComment: function (event) {
-      // console.log(333, event)
       this.setData({
         currentComment:event.detail.value
       })
@@ -115,7 +154,8 @@ Component({
     showEmoji: function () {
       this.setData({
         emojiShowed: true,
-        textBottom: 0
+        textBottom: 0,
+        isInputComment: false
       })
       console.log(this.data)
     },
@@ -150,7 +190,7 @@ Component({
         request: 'messageCreate',
         params: {
           content: this.data.currentComment,
-          id: this.data.states.msgBoard.id
+          pid: this.data.states.msgBoard.id
         }
       }
      
@@ -186,7 +226,6 @@ Component({
           this.setData({
             sending: false,
           })
-
           store.action('update', {
             errMsg: resp.message
           })
@@ -195,6 +234,12 @@ Component({
     },
     getUserInfo: function (event) {
      user.setUserInfoInComment(event)
+    },
+    onTextareaBlur () {
+      this.setData({foucus: false})
+    },
+    ggg: function () {
+      console.log(3333333)
     }
   }
 })

@@ -113,3 +113,11 @@
     margin-top: 8rpx;
     padding: 16rpx 0;
 }
+
+/* TODO@Pony 做的不好 */
+.manager-main {
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

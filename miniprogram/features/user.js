@@ -3,24 +3,25 @@ let store = require('../store')
 let request = require('../requests/request')
 let utils = require('../utils/index')
 
-function setUserInfoByButton (res, doAfterAuth) {
-  console.log(4444,res)
-  if (!res.userInfo) {
-    return Promise.reject({
-      userNoAuth: true
+function setUserInfoByButton (event) {
+  if (!event.detail || !event.detail.userInfo) {
+    wx.showModal({
+      title: '需要授权',
+      content: '授权小程序后，才可使用~',
+      showCancel: false
     })
+    return Promise.reject('[fail],未授权')
   }
+
   let sessionKey = request.getSessionId()
-  console.log()
-  if (typeof doAfterAuth === 'function') {
-    console.log('33333')
-    doAfterAuth(res)
-  }
-  
+
+  return wx.myRequests.userInfo({
+    sessionKey,
+    ...event.detail
+  })
 }
 
 function setUserInfoInComment (event) {
-  console.log(444, event)
   if (!event.detail || !event.detail.userInfo) {
     wx.showModal({
       title: '需要授权',
@@ -33,8 +34,10 @@ function setUserInfoInComment (event) {
   store.action('update', {
     isInputComment: true,
   })
-
+  
   let sessionKey = request.getSessionId()
+  request.setSeesion(sessionKey)
+
   // TODO@Maxiao sessionKey 错误处理
   return wx.myRequests.userInfo({
     sessionKey,
@@ -44,7 +47,14 @@ function setUserInfoInComment (event) {
 
 // 本地存用户信息 + 后端设置用户信息
 // return promise
-function setUserInfo (sessionKey) {
+function setUserInfo () {
+  let states = store.getStates()
+  
+  if (states.user && states.user.nickName) {
+    return Promise.resolve('ok')
+
+  }
+
   return utils.wxGetSetting()
     // 1. 检查用户授权
     .then(res => {
@@ -55,7 +65,7 @@ function setUserInfo (sessionKey) {
         return Promise.resolve()
       } else {
         console.log('[fail]未得到用户授权')
-        return Promise.reject()
+        return Promise.reject('[fail]未得到用户授权')
       }
     })
     // 2. 获取wx用户信息
@@ -72,7 +82,7 @@ function setUserInfo (sessionKey) {
 
       // 4. 发送后端Yoon和信息
       return wx.myRequests.userInfo({
-        sessionKey,
+        sessionKey: request.getSessionId(res.sessionId),
         ...res
       })
     })
@@ -87,6 +97,7 @@ function setUserInfo (sessionKey) {
 function login () {
   try {
     let value = wx.getStorageSync('sessionId')
+    request.setSeesion(value)
     if (value) {
       return Promise.resolve({
         sessionId: value,

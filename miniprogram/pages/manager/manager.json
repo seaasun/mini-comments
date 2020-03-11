@@ -4,6 +4,8 @@
     "onReachBottomDistance": 500,
     "usingComponents": {
     "my-page-loading": "../../components/my-page-loading/my-page-loading",
-    "mp-icon": "../../weui-miniprogram/icon/icon"
+    "my-landing": "../../components/my-landing/my-landing",
+    "mp-icon": "../../weui-miniprogram/icon/icon",
+    "my-new-board-tip": "../../components/my-new-board-tip/my-new-board-tip"
   }
 }

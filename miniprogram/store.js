@@ -59,9 +59,14 @@ function action (type, payload) {
     subjects.forEach(function(item) {
         item(states)
     })
-    console.log('[store]new action /n', payload, wx.myDebug)
+    console.log('[store]new action', type, payload, wx.myDebug)
+}
+
+function getStates () {
+    return states
 }
 
 module.exports.action = action
 module.exports.subject = subject
 module.exports.states = states
+module.exports.getStates = getStates
