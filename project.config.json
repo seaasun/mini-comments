@@ -60,7 +60,7 @@
 				{
 					"id": 1,
 					"name": "comments",
-					"pathName": "pages/comments/comments",
+					"pathName": "comments",
 					"query": "msgBoardId=2",
 					"scene": null
 				},

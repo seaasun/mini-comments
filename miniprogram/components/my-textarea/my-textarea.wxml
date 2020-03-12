@@ -1,23 +1,3 @@
-<view class="input-box" 
-        wx:if="{{!states.isInputComment && states.isAuth}}"
-        bindtap="commentFocusInput">
-    <view 
-         bindtap="commentFocusInput"
-         wx:if="{{states.isAuth}}"  
-        class="input-display">     
-        <view class="text-clip input-display-text">
-            {{currentComment ? currentComment : '说点什么...'}}{{states.isInputComment? 1:0}} {{textFoucs ? 1:0}}
-        </view>
-    </view>
-     
-</view>
-<view class="input-box" wx:if="{{!states.isInputComment && !states.isAuth}}">
-    <button open-type="getUserInfo" 
-        bindgetuserinfo="getUserInfo"
-        class="g-input-display-button input-display "> 说点什么 {{states.isInputComment? 1:0}} {{textFoucs ? 1:0}}</button>
-</view> 
-
-
 <!-- <half-screen-dialog show="{{states.isInputComment}}" 
     bind:close="commentNotFocusInput"
     extClass="textarea-dialog"
@@ -26,42 +6,66 @@
     > 
     <view slot ="title">写留言</view> -->
     
-<view class="textarea-box, {{states.isInputComment ? 'show' : 'hide'}}"
+<view class="textarea-box'}}"
    >
+
+    <view wx:if="{{!states.isInputComment && !states.isAuth}}" 
+        class="bottom-box">
+        <button open-type="getUserInfo" 
+            bindgetuserinfo="getUserInfo"
+            class="g-input-display-button input-display input-display-btn"> 说点什么... </button>
+    </view>
+
+    <view wx:if="{{!states.isInputComment && states.isAuth}}" 
+        class="bottom-box">
+        <button class="text-clip g-input-display-button input-display input-display-btn"
+            bindtap="commentFocusInput"
+        >
+            {{currentComment ? currentComment : '说点什么...'}}
+        </button>
+    </view> 
+
+   <view class="textarea-area" wx:if="{{states.isInputComment}}">
     <view
         slot="desc"
         class="input-main"
-        style="padding-bottom:{{textBottom}};">
+    >
+
+        <view style="background-color: #fff">
         <view class="input-main-brief">
-            <view class="input-breif-text">{{textareaBrief}}：{{states.isInputComment? 1:0}} {{textFoucs ? 1:0}}</view>
+            <view class="input-breif-text">{{textareaBrief}}：</view>
             <view class="intpu-brief-hidden" 
                 bindtap="onCloseTextare">
                     <mp-icon icon="close" color="#B2B2B2" size="20"></mp-icon>
             </view>  
-        </view>    
-        <textarea class="input-textarea"
-            value="{{currentComment}}"
-            placeholder="{{inputPlaceholder}}"
-            placeholder-class="input-input-placeholder"
-            maxlength = "500"
+        </view>
+        <view class="input-textarea-wrap"> 
+            <textarea 
+                class="input-textarea"
+               
+                value="{{currentComment}}"
+                placeholder="{{inputPlaceholder}}"
+                placeholder-class="input-input-placeholder"
+                maxlength = "500"
 
-            auto-focus="{{false}}"
-            focus = "{{textFoucs}}"
+                auto-focus="{{false}}"
+                focus = "{{textFoucs}}"
+                hold-keyboard
 
-            auto-height="{{true}}"
-            style="max-height: {{textMaxHeight}}"
-            disable-default-padding
-                    
-            fixed
-            show-confirm-bar="{{false}}"
-            adjust-position="{{true}}"
+                auto-height
+                style="max-height: 128px"
+                disable-default-padding
+                        
+                
+                show-confirm-bar="{{false}}"
+                adjust-position="{{false}}"
 
-            bindTap ="ggg"
-            bindfocus="focusedTextarea"
-            bindblur="onTextareaBlur"
-            bindinput="updateCurrentComment"
-            bindkeyboardheightchange="commentHeightUpdate"
-        />
+                bindfocus="focusedTextarea"
+                bindblur="onTextareaBlur"
+                bindinput="updateCurrentComment"
+                bindkeyboardheightchange="commentHeightUpdate"
+            />
+        </view>
         <view class="input-action">
             <view  class="input-action-emoj" bindtap="showEmoji">
                 <mp-icon icon="sticker" color="#B2B2B2" size="32"></mp-icon>
@@ -73,18 +77,20 @@
                 <view wx:if="{{sending}}">发布中</view>
             </view>
         </view>
-        <scroll-view wx:if="{{emojiShowed}}"
-                scroll-y
-                style="height: {{emojiHeight}}">
-            <view class="emoji-box">
-                <view wx:for="{{emojis}}" 
-                    class="emoji-select"
-                    bindtap="addEmoji"
-                    data-emoji-index = "{{index}}"
-                    wx:key="index">{{item}}</view>
-                    </view>
-        </scroll-view>  
+            <scroll-view 
+                    scroll-y
+                    style="height: {{emojiHeightShould}}">
+                <view class="emoji-box" wx:if="{{emojiShowed}}">
+                    <view wx:for="{{emojis}}" 
+                        class="emoji-select"
+                        bindtap="addEmoji"
+                        data-emoji-index = "{{index}}"
+                        wx:key="index">{{item}}</view>
+                        </view>
+            </scroll-view> 
     </view>    
+    </view>
+    </view>
       
 </view>    
 <!-- </half-screen-dialog> -->

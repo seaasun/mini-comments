@@ -32,6 +32,7 @@ function setUserInfoInComment (event) {
   }
 
   store.action('update', {
+    isAuth: true,
     isInputComment: true,
   })
   
@@ -98,7 +99,7 @@ function login () {
   try {
     let value = wx.getStorageSync('sessionId')
     request.setSeesion(value)
-    if (value) {
+    if (value && false) {
       return Promise.resolve({
         sessionId: value,
         useStorage: true

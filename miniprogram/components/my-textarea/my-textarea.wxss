@@ -1,14 +1,13 @@
 @import "../../app.wxss";
 
-.input-box {
-    position: fixed;
-    bottom: 0;
-    background-color: #ffffff;
-    width: 100%;
+.input-input-placeholder {
+    font-size: 32rpx;
+}
+
+.bottom-box {
     display: flex;
-    box-shadow: 0 -1rpx 2px 2px #eeeeee;
-    width: 100%;
   }
+
 .textarea-box {
     position: fixed;
     bottom: 0;
@@ -16,20 +15,28 @@
     width: 100%;
     box-shadow: 0 -1rpx 2px 2px #eeeeee
 }
-.textarea-box.show {
+.textarea-area.show {
     visibility:visible;
     transform: translateY(0%);
-    transition: .3s;
+    transition: .5s;
 }
 .textarea-box.hide {
     visibility:hidden;
-    transform: translateY(70%);
-    transition: .3s;
+    transform: translateY(100%);
+    transition: .5s;
     box-shadow: 0 0 0 0 #ffffff
 }
 .input-display {
     width: 100%;
+    flex:1;
+    text-align: left;
+   
+      
 }  
+.input-display-btn {
+    padding-top: 29rpx;
+    padding-bottom: 29rpx;
+}
 .input-display-button {
     width: 100%;
     flex: 1;
@@ -44,7 +51,8 @@
 }
 
 .input-main {
-    padding: 0 0 16rpx 0;
+    background-color: #F4F4F4;
+    padding: 0;
 }
 
 .input-main-brief {
@@ -54,22 +62,31 @@
 
 .input-breif-text {
     color: #B2B2B2;
-    padding: 24rpx
+    padding: 32rpx;
+    font-size: 32rpx;
 }
 .intpu-brief-hidden {
     padding: 24rpx 24rpx 24rpx 64rpx
 }
 
+.input-textarea-wrap {
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+    
+    
+}
+
 .input-textarea {
     width: 100%;
-    padding: 0 24rpx 24rpx 24rpx;
+    padding: 0 0 24rpx 24rp 0;
+    font-size: 40rpx;
+    line-height: 48rpx;
 }
 
 .input-action {
     display: flex;
     justify-content: space-between;
     padding: 0;
-    background-color:  #F4F4F4;
 }
 
 .input-action-emoj {
@@ -81,8 +98,12 @@
     size: 32px;
 }
 
-.emoji-box {
+.emoji-scroll {
     width: 100%;
+    background-color: #F4F4F4;
+    height: 300rpx;
+}
+.emoji-box {
     background-color: #F4F4F4;
     display: flex;
     flex-wrap: wrap;

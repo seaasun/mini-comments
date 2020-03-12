@@ -2,6 +2,8 @@
 var store = require('../../store')
 var user = require('../../features/user')
 
+const emojieBaseHeight = '164px'
+
 Component({
   /**
    * 组件的属性列表
@@ -24,11 +26,9 @@ Component({
     // emoji 相关
     emojis: ['😀','😁','😂','😃','😄','😅','😆','😉','😊','😋','😎','😍','😘','😗','😙','😚','😇','😐','😑','😶','😏','😣','😥','😮','😯','😪','😫','😴','😌','😛','😜','😝','😒','😓','😔','😕','😲','😷','😖','😞','😟','😤','😢','😭','😦','😧','😨','😬','😰','😱','😳','😵','😡','😠'],
     emojiShowed: false,
-    emojiHeight: 0,
+    emojiHeightShould: emojieBaseHeight,
 
     // textareae 弹出高度相关
-    textBottom: 0,
-    textMaxHeight: '128rpx',
     textFoucs: false,
    
   },
@@ -59,9 +59,14 @@ Component({
          }
         } else {
           if (this.data.textFoucs !== true) {
-            this.setData({
-           textFoucs: true
-         })
+            setTimeout( () => {
+              this.setData({
+                textFoucs: true
+              })
+            }, 1
+             
+            )
+         
          }
         }
       }
@@ -121,27 +126,13 @@ Component({
       })
     },
     
-    commentHeightUpdate:function (event) {
-      console.log(9999, event.detail.height, this.data.emojiShowed)
-      // 软键盘缩小后，键盘不变化
-      if (event.detail.height === 0) {
-        // this.setData({
-        //   textMaxHeight: this.data.textBottom + 128 + 'px'
-        // })
-        return
-      }
-      if (this.data.textBottom !== event.detail.height + 'px') {
-        this.setData({
-          textMaxHeight: '128px',
-          textBottom: event.detail.height + 'px',
-          emojiHeight: event.detail.height + 'px',
-        })
-      }
-      if (this.data.emojiShowed && event.detail.height > 0) {
-        console.log(9991)
-        this.setData({
-          emojiHeight: 0,
-        })
+    commentHeightUpdate:function (event) {     
+      if (this.data.emojiHeightShould !== event.detail.height + 'px' 
+        && event.detail.height > 164) {
+          this.setData({
+            emojiHeightShould: event.detail.height + 'px',
+          })
+        
       }
     },
 
@@ -152,12 +143,18 @@ Component({
 
     },
     showEmoji: function () {
-      this.setData({
-        emojiShowed: true,
-        textBottom: 0,
-        isInputComment: false
-      })
-      console.log(this.data)
+      if (!this.data.emojiShowed) {
+        this.setData({
+          textFoucs: false,
+          emojiShowed: true,
+        })
+      } else {
+        this.setData({
+          emojiShowed: false,
+          textFoucs: true,
+        })
+      }
+     
     },
     focusedTextarea: function () {
       this.setData({

@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs",
     "pages/manager/manager",
+    "comments",
+    "pages/logs/logs",
     "pages/comments/comments",
     "pages/landing/landing"
   ],
