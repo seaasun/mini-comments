@@ -37,7 +37,12 @@
                                 </view>       
                             </view> 
                         </view>
-                        <view class="topic-image"></view>
+                        <view class="topic-image">
+                            <image src="{{states.msgBoard.refImage}}"
+                                class="topic-image-image"
+                                mode="aspectFill" 
+                            />
+                        </view>
                     </view>
                 </view>    
                 

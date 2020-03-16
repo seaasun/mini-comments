@@ -59,7 +59,7 @@ function action (type, payload) {
     subjects.forEach(function(item) {
         item(states)
     })
-    console.log('[store]new action', type, payload, wx.myDebug)
+    console.warn('[store]new action', type, payload, wx.myDebug)
 }
 
 function getStates () {

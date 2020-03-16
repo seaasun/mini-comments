@@ -23,24 +23,19 @@ Component({
     deleteTipWating: false,
     deleteTiping: false,
     delteTipDone: false,
+    commentIsDeleting: false,
+    replayIsDeleting: false,
     toggleGooding: false,
     actionMoring: false,
-    isDelete: false
   },
   lifetimes: {
     created: function () {
-      store.subject(this)
-      
     },
     attached: function () {
       store.subject(this)
-      store.action('update', {
-        isManager: true
-      })
       this.updateMoreActions()
     },
     ready: function () {
-      store.subject(this)
     }
   },
 
@@ -61,8 +56,8 @@ Component({
       })
       let check = 1
       
-      if (this.data.comment.checked) {
-        check = 0 
+      if (this.data.comment.checked == 1) {
+        check = 0
       }
 
       wx.myRequests.messageAdminCheck({
@@ -71,7 +66,7 @@ Component({
       }, () => {
         this.setData({
           toggleChecking: false,
-          'comment.checked': check === 1 ? true : false
+          'comment.checked': check === 1 ? 1 : 0
         })
         console.log(this.data)
       }, resp => {
@@ -119,56 +114,89 @@ Component({
       })
     },
     doAuthorDelete: function () {
-      if (this.data.deleteTiping) return 
-      this.setData({
-        deleteTipWating: true,
-        showDeleteTip: true,
-        deleteTiping: false,
-        delteTipDone: false,
-      })
-      
-      // 执行删除
-      setTimeout(() => {
-        this.setData({
-          deleteTipWating: false,
-          deleteTiping: true
-        })
-        
-        wx.myRequests.messageAdminDelete({
-          id: this.data.comment.id
-        }, () => {
-          // 删除完成
+      if (this.data.commentIsDeleting) return 
+     
+      wx.showModal({
+        title: '是否要删除？',
+        content: '删除后的留言不可找回',
+        success: () => {
           this.setData({
-            deleteTiping: false,
-            delteTipDone: true,
-            isDelete: true
-          })
-          console.log( this.data.states.msgBoard.msgQtyForCommenter,this.data.states,3333)
-          store.action('updateMsgboard', {
-            msgQtyForCommenter: this.data.states.msgBoard.msgQtyForCommenter - 1
-          })
-          
-          // Todo@maxiao hav problem
-          this.triggerEvent('deleteComment ', this.data.comment.id, { bubbles: true })
-         
-          // 关闭提示
-          setTimeout(() => {
-            this.setData({
-              showDeleteTip:false
-            })
-          }, 1000)
-        }, resp => {
-          
-          this.setData({
-            deleteTiping: false,
-            showDeleteTip:false,
+            commentIsDeleting: true
           })
 
-          store.action('update', {
-            errMsg: resp.message
+          wx.myRequests.messageAdminDelete({
+            id: this.data.comment.id
+          }).then(resp => {
+             store.action('updateMsgboard', {
+              msgQtyForCommenter: this.data.states.msgBoard.msgQtyForCommenter - 1
+            })
+          
+            this.triggerEvent('deleteComment', {id: this.data.comment.id}, {})
+          }).catch(()=> {
+            store.action('update', {
+                    errMsg: resp.message
+                  })
           })
-        })
-      }, 2000)
+        },
+        complete: () => {
+          this.setData({
+            commentIsDeleting: false
+          })
+        }
+      })
+
+      // this.setData({
+      //   deleteTipWating: true,
+      //   showDeleteTip: true,
+      //   deleteTiping: false,
+      //   delteTipDone: false,
+      // })
+
+     
+       
+      
+      // // 执行删除
+      // setTimeout(() => {
+      //   this.setData({
+      //     deleteTipWating: false,
+      //     deleteTiping: true
+      //   })
+        
+      //   wx.myRequests.messageAdminDelete({
+      //     id: this.data.comment.id
+      //   }, () => {
+      //     // 删除完成
+      //     this.setData({
+      //       deleteTiping: false,
+      //       delteTipDone: true,
+      //       isDelete: true
+      //     })
+          
+      //     store.action('updateMsgboard', {
+      //       msgQtyForCommenter: this.data.states.msgBoard.msgQtyForCommenter - 1
+      //     })
+          
+      //     // Todo@maxiao hav problem
+      //     this.triggerEvent('deleteComment', {id: this.data.comment.id}, {})
+         
+      //     // 关闭提示
+      //     setTimeout(() => {
+      //       this.setData({
+      //         showDeleteTip:false
+      //       })
+      //     }, 1000)
+      //   }, resp => {
+          
+      //     this.setData({
+      //       deleteTiping: false,
+      //       showDeleteTip:false,
+      //     })
+
+      //     store.action('update', {
+      //       errMsg: resp.message
+      //     })
+      //   })
+      // }, 2000)
 
     },
     doActionMore: function (event) {
@@ -188,7 +216,7 @@ Component({
     },
     doToggleGood: function () {
       let praise = 1
-      if (this.data.comment.praise === 1) {
+      if (this.data.comment.isPraised) {
         praise = -1
       }
       this.setData({
@@ -201,7 +229,7 @@ Component({
         this.setData({
           toggleGooding: false,
           'comment.praisePoint': this.data.comment.praisePoint + praise,
-          'comment.praise': praise === 1 ? 1 : 0
+          'comment.isPraised': praise === 1 ? 1 : 0
         })
       }, resp => {
         this.setData({
@@ -218,8 +246,38 @@ Component({
         'moreActions[0].text': this.data.comment.top ? '取消置顶' : '置顶'
       })
     },
-    getUserInfo () {
-      
+    deleteAuthorComment () {
+      if (this.data.replayIsDeleting) return 
+     
+      wx.showModal({
+        title: '是否要删除？',
+        content: '删除后回复不可找回',
+        success: () => {
+          this.setData({
+            replayIsDeleting: true
+          })
+          
+          wx.myRequests.messageAdminDelete({
+            id: this.data.comment.child.id
+          }).then(resp => {
+          
+            this.setData({
+              'comment.child': null
+            })
+          }).catch( resp => {
+            if (resp && resp.message) {
+              store.action('update', {
+                errMsg: resp.message
+              })
+            }
+          })
+        },
+        complete: () => {
+          this.setData({
+            replayIsDeleting: false
+          })
+        }
+      })
     }
   }
 })

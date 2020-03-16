@@ -40,3 +40,4 @@
 8. image-backgroud #DFDFDF
 9. error #E64340
 10. warning #F43530
+11. link #576a94

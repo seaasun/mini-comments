@@ -25,21 +25,21 @@
         </button>
     </view> 
 
-   <view class="textarea-area" wx:if="{{states.isInputComment}}">
+   <view class="textarea-area {{states.isInputComment ? 'show': ''}}">
     <view
         slot="desc"
         class="input-main"
     >
 
         <view style="background-color: #fff">
-        <view class="input-main-brief">
+        <view class="input-main-brief" wx:if="{{states.isInputComment}}">
             <view class="input-breif-text">{{textareaBrief}}：</view>
             <view class="intpu-brief-hidden" 
                 bindtap="onCloseTextare">
                     <mp-icon icon="close" color="#B2B2B2" size="20"></mp-icon>
             </view>  
         </view>
-        <view class="input-textarea-wrap"> 
+        <view class="input-textarea-wrap" wx:if="{{states.isInputComment}}"> 
             <textarea 
                 class="input-textarea"
                
@@ -68,7 +68,7 @@
         </view>
         <view class="input-action">
             <view  class="input-action-emoj" bindtap="showEmoji">
-                <mp-icon icon="sticker" color="#B2B2B2" size="32"></mp-icon>
+                <mp-icon icon="sticker" color="#B2B2B2" size="32" wx:if="{{states.isInputComment}}"></mp-icon>
             </view>
             <view
                 bindtap="send"

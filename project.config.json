@@ -61,7 +61,7 @@
 					"id": 1,
 					"name": "comments",
 					"pathName": "comments",
-					"query": "msgBoardId=2",
+					"query": "id=2&isManager=1",
 					"scene": null
 				},
 				{

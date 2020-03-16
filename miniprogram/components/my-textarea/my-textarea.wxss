@@ -6,7 +6,10 @@
 
 .bottom-box {
     display: flex;
-  }
+
+}
+
+
 
 .textarea-box {
     position: fixed;
@@ -15,17 +18,14 @@
     width: 100%;
     box-shadow: 0 -1rpx 2px 2px #eeeeee
 }
+.textarea-area {
+    max-height: 0;
+    transition: max-height .4s;
+}
 .textarea-area.show {
-    visibility:visible;
-    transform: translateY(0%);
-    transition: .5s;
+    max-height: 400px ;
 }
-.textarea-box.hide {
-    visibility:hidden;
-    transform: translateY(100%);
-    transition: .5s;
-    box-shadow: 0 0 0 0 #ffffff
-}
+
 .input-display {
     width: 100%;
     flex:1;
@@ -128,7 +128,7 @@
     position:fixed;
     -webkit-transform:translateZ(0) translateY(calc(-100% - 8px));
     transform:translateZ(0) translateY(calc(-100% - 8px));
-    
+
     top:32px;
     left:16px;
     right:16px;
@@ -142,7 +142,7 @@
     z-index:5000;
     word-wrap:break-word;
     word-break:break-all;
-    color: #000000;
+    color: #fff;
     background-color: #07c160;
     -webkit-transition:all .4s ease-in-out;
     transition:all .4s ease-in-out;

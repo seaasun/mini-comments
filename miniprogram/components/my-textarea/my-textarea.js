@@ -34,14 +34,10 @@ Component({
   },
   lifetimes: {
     created: function () {
-      console.log(this.setData)
       store.subject(this)
     }
   },
   observers: {
-    'textFoucs' (value) {
-      console.log(999999, value)
-    },
     'states.isInputComment, emojiShowed' (isInputComment, emojiShowed) {
       if (isInputComment === false) {
         if (this.data.textFoucs !== false) {
@@ -162,7 +158,6 @@ Component({
       })
     },
     addEmoji: function (event) {
-      console.log(event)
       this.setData({
         currentComment: this.data.currentComment + this.data.emojis[event.target.dataset.emojiIndex],
         isInputComment: true
@@ -187,7 +182,7 @@ Component({
         request: 'messageCreate',
         params: {
           content: this.data.currentComment,
-          pid: this.data.states.msgBoard.id
+          msgBoardId: this.data.states.msgBoard.id
         }
       }
      
@@ -200,14 +195,31 @@ Component({
           }
         }
       }
+      
       wx.myRequests[options.request](
-        options.params,
-        () => {
+        options.params)
+        .then(() => {
+          this.triggerEvent('send', {
+            isReplay: this.data.states.replayId !== 0,
+            replayId: this.data.states.replayId,
+            comment: {
+              nickname: 't',
+              content: this.data.currentComment
+            }
+          },{})
+
           this.setData({
             sending: false,
             currentComment: '',
             successMsg: this.data.states.replayId ?'回复成功' : '留言成功'
           })
+          
+          if (this.data.states.replayId !== 0) {
+            store.action('updateMsgboard', {
+              msgQtyForCommenter: this.data.states.msgBoard.msgQtyForCommenter + 1
+            })
+          }
+
           store.action('update', {
             isInputComment: false,
             replayId: 0,
@@ -218,25 +230,20 @@ Component({
               successMsg: ''
             })
           }, 2000)
-        },
-        resp => {
-          this.setData({
-            sending: false,
-          })
-          store.action('update', {
-            errMsg: resp.message
-          })
-        }
-      )
+        }).catch(resp => {
+            this.setData({
+              sending: false,
+            })
+            store.action('update', {
+              errMsg: resp.message
+            })
+        })
     },
     getUserInfo: function (event) {
      user.setUserInfoInComment(event)
     },
     onTextareaBlur () {
       this.setData({foucus: false})
-    },
-    ggg: function () {
-      console.log(3333333)
     }
   }
 })

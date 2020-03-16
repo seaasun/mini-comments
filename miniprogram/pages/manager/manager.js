@@ -41,7 +41,6 @@ Page({
       })
       this.onLoadFectTopices()
     }).catch(resp => {
-      console.log(333)
       if (resp === '[fail]未得到用户授权') {
         this.setData({
           loginStatus: 'unAuth'
@@ -176,6 +175,6 @@ Page({
   },
   goComment (e) {
     console.log(e)
-    wx.navigateTo({url:`/pages/comments/comments?msgBoardId=${e.currentTarget.dataset.commentId}`})
+    wx.navigateTo({url:`/comments?id=${e.currentTarget.dataset.commentId}`})
   }
 })

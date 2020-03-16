@@ -2,60 +2,69 @@ let utils = require('../utils/index')
 
 let options = {
     messageAdminAuthorReplay: {
-        url: 'wx/ma/message/admin/author/replay',
+        url: 'wx/ma/message/admin/author/reply',
         method: 'post',
         isDataBoolean: true,
-        mock: true
+        mock: false,
+        pass: false
+    },
+    messageAdminList: {
+        url: 'wx/ma/message/admin/list',
+        method: 'get',
+        mock: false,
+        pass: false
     },
     messageAdminCheck: {
         url: 'wx/ma/message/admin/check',
         method: 'get',
         isDataBoolean: true,
-        mock: true,
+        mock: false,
     },
     messageAdminDelete: {
         url: 'wx/ma/message/admin/delete',
         method: 'get',
         isDataBoolean: true,
-        mock: true
+        mock: false,
+        pass: true
     },
     messageAdminTop: {
         url: 'wx/ma/message/admin/top',
         method: 'get',
         isDataBoolean: true,
-        mock: true
+        mock: false,
+        pass: true
     },
     messageCreate: {
         url: 'wx/ma/message/create',
         method: 'post',
         isDataBoolean: true,
-        mock: false
+        mock: false,
+        pass: true
     },
     messageList: {
         url: 'wx/ma/message/list',
         method: 'get',
         mock: false,
+        pass: false
     },
     messagePraise: {
         url: 'wx/ma/message/praise',
         method: 'get',
         isDataBoolean: true,
-        mock: true
+        mock: false,
+        pass: false
     },
     msgBoardAdminList: {
         url: 'wx/ma/msgBoard/admin/list',
         method: 'get',
         mock: false,
-    },
-    msgBoardCommenterList: {
-        url: 'wx/ma/msgBoard/commenter/list',
-        method: 'get',
-        mock: true
+        pass: true,
     },
     msgBoardOne: {
         url: 'wx/ma/msgBoard/queryById',
         method: 'get',
-        mock: false
+        mock: false,
+        pass: true
     },
     portal: {
         url: 'wx/ma/portal',
@@ -65,19 +74,20 @@ let options = {
     userInfo: {
         url: 'wx/ma/user/info',
         method: 'get',
-        mock: false
+        mock: false,
+        pass: true
     },
     userLogin: {
         url: 'wx/ma/user/login',
         method: 'get',
-        mock: false
+        mock: false,
+        pass: true
     },
     userPhone: {
         url: 'wx/ma/user/phone',
         method: 'get',
         mock: true
     },
-    
 }
 
 // 存储sessionId
@@ -92,7 +102,6 @@ function getUrl (item) {
 
 }
 function request (item, data, success, fail) {
-    console.log('sessionId', sessionId)
     return new Promise((resolve, reject) => {
         utils.wxRequest({
             url: getUrl(item) + item.url,
@@ -119,7 +128,8 @@ function request (item, data, success, fail) {
                 reject(res.data)
             }
         }).catch(res => {
-            fail(res.data)
+            typeof fail === 'function' && fail(res.data)
+            reject(res.data)
         })
     })
     
@@ -140,7 +150,6 @@ function getRequests() {
 }
 
 function setSeesion (session) {
-    console.log(33, session)
     sessionId = session
 }
 

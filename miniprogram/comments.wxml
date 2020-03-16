@@ -2,7 +2,12 @@
 <view class="wxml-box">
     <view class="wxml-main">
         <view class="article-box">
-            <navigator class="article-image"></navigator>
+            <navigator class="article-image">
+                <image src="{{states.msgBoard.refImage}}"
+                        class="article-image-image"
+                        mode="aspectFill" 
+                />
+            </navigator>
             <navigator class="article-title text-clip-2">
                 <view class="article-privew-text" wx:if="{{!states.msgBoard.createdTime}}"></view>
                 <view class="article-privew-text" wx:if="{{!states.msgBoard.createdTime}}"></view>
@@ -11,7 +16,8 @@
             </navigator>
         </view>
         <my-page-loading  wx:if="{{!commentsHasFirstLoad && !commentsHasLoadError}}"/>
-        <view wx:if="{{commentsHasFirstLoad}}"  
+
+        <view wx:if="{{commentsHasFirstLoad && !isErrorMsgboardId}}"  
             class="comment-container">
             <view class="comment-brief">
                 <view class="comment-text">
@@ -19,9 +25,9 @@
                 </view>
                 <button class="g-input-display-button comment-write"
                     bindtap="writeComment"
-                    wx:if = "{{states.isAuth}}"
+                    wx:if = "{{states.isAuth && !states.isManager}}"
                     >写留言</button>
-                <button wx:if = "{{!states.isAuth}}"
+                <button wx:if = "{{!states.isAuth && !states.isManager}}"
                     open-type="getUserInfo"
                     bindgetuserinfo="getUserInfo"
                     class="g-input-display-button comment-write">
@@ -37,24 +43,26 @@
                         邀你写第一份留言
                     </view>
                     <view class="first-comment">
-                        <mp-icon icon="pencil" color="#B2B2B2" size="64"></mp-icon>
+                        <mp-icon icon="pencil" color="#07c160" size="40"></mp-icon>
                         <button class="g-input-display-button first-comment-text"
                             bindtap="writeComment"
                             wx:if = "{{states.isAuth}}"
-                            >写留言1</button>
+                            >写留言</button>
                         <button wx:if = "{{!states.isAuth}}"
                             open-type="getUserInfo"
                             bindgetuserinfo="getUserInfo"
                             class="g-input-display-button first-comment-text">
-                            写留言2</button>
+                            写留言</button>
                     </view>
                     
                 </view>
-            </view>           
+            </view>   
+          
             <my-comment wx:for="{{comments}}"
-                binddeleteComment="onMyEvent" 
+                wx:key="id"
+                bind:deleteComment="onDeleteComment"
                 comment="{{item}}"
-                wx:key="id" />
+                 />
         </view> 
         
         <view wx:if ="{{commentsHasLoadError}}" 
@@ -62,6 +70,10 @@
             class='g-web-error'>
             <mp-icon icon="refresh" size="32" color="#B2B2B2"/>
             <view class='g-web-error-text'>网络错误，点击重试</view>
+        </view>
+
+        <view wx:if="{{isErrorMsgboardId}}" class='g-web-error'>
+            <view class='g-web-error-text'>没有此留言板，请联系公众号作者</view>
         </view>
     </view>
     <view wx:if="{{noLoaderMoreShowed}}" 
@@ -75,4 +87,4 @@
     bindhide="clearErrMsg"
     delay= "2000"
     />
-<my-textarea  />
+<my-textarea  bind:send="onSend" wx:if="{{!states.isManager}}"/>

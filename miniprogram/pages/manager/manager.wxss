@@ -49,6 +49,11 @@
     margin-left: 32rpx;
 }
 
+.topic-image-image {
+    width: 124rpx;
+    height: 124rpx;
+}
+
 .topic-main {
     flex-grow: 1;
 
