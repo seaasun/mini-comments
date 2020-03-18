@@ -3,6 +3,11 @@ var user = require('../../features/user')
 var utils = require('../../utils/index')
 var store = require('../../store')
 
+let paginationInit = {
+  pageNum: 1,
+  pageSize: 20,
+}
+
 Page({
 
   /**
@@ -11,64 +16,27 @@ Page({
   data: {
     loginStatus: 'authing', // authing: 正在登陆/授权； unAuth: 未授权； hasAuth: 已授权
     topics: [],
+    totalTopic: false,
+    pagination: paginationInit,
+
     topicHasFirstLoad: false,
     topicHasLoadError: false,
-    webErrors: [],
-    topiceMoreLoadding: false,
+
+    
+    errMessage: false,
+    webErrors: [], // 缓存错误队列
+
     loaderMoreShowed: false,
     noLoaderMoreShowed: false,
-    paginations: [{index:1},{index:2}],
-    pagination: {
-      pageNum: 1,
-      pageSize: 30
-    },
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    store.subject(this)
     wx.myDebug = this.data
+    this.initPageData()
 
-    user.login()
-    .then(() => {
-        return user.setUserInfo()
-      }
-    ).then(() => {
-      this.setData({
-        loginStatus: 'hasAuth'
-      })
-      this.onLoadFectTopices()
-    }).catch(resp => {
-      if (resp === '[fail]未得到用户授权') {
-        this.setData({
-          loginStatus: 'unAuth'
-        })
-      } else {
-        console.log(resp)
-      }
-    })
-    
-  },
-  onLoadFectTopices: function () {
-    this.setData({
-      topicHasFirstLoad: false,
-      topicHasLoadError: false
-    })
-    this.fetchTopices(
-      () => {
-        this.setData({
-          topicHasFirstLoad: true
-        })
-      },
-      () => {
-        this.setData({
-          topicHasLoadError: true,
-          webErrors: [this.onLoadFectTopices]
-        })
-      }
-    )
   },
 
   /**
@@ -103,7 +71,19 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.setData({
+      pagination:  paginationInit
+    })
+    return this.fetchTopices(true)
+      .then(()=> {
+        wx.stopPullDownRefresh()
+        this.setData({
+          topicHasFirstLoad: true,
+          errMessage: false
+        })
+      }).catch(()=> {
+        wx.stopPullDownRefresh()
+      })
   },
 
   /**
@@ -113,59 +93,113 @@ Page({
     if (this.data.loaderMoreShowed || this.data.noLoaderMoreShowed) return
     this.setData({
       loaderMoreShowed: true,
-      topicHasLoadError: false
+      errMessage: false
     })
-    this.fetchTopices(data => {
-      this.setData({
-        loaderMoreShowed: false
-      })
-      if (data.length === 0) {
+    this.fetchTopices()
+      .then(data => {
         this.setData({
-          noLoaderMoreShowed: true
+          loaderMoreShowed: false
         })
-      }
-    }, () => {
-      this.setData({
-        loaderMoreShowed: false,
-        topicHasLoadError: true,
-          webErrors: [this.onReachBottom]
+        if (data.length === 0) {
+          this.setData({
+            noLoaderMoreShowed: true
+          })
+        }
       })
-    })
+      .catch(res => {
+        if (typeof res !== 'object') res = {}
+        this.setData({
+          loaderMoreShowed: false,
+          errMessage: res.message || '网路错误',
+            webErrors: [this.onReachBottom]
+        })
+      })
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return {
+      title: `为你的公众号添加评论吧！`,
+      path: `/comments?id=${this.data.msgBoard.id}`
+    }
   },
-  fetchTopices: function (success, fail) {
-    wx.myRequests.msgBoardAdminList({
+  initPageData () {
+    user.login()
+    .then(() => {
+      this.onLoadFectTopices()
+      this.setData({
+        loginStatus: 'hasAuth'
+      })
+      user.setUserInfo()
+    }).catch(res => {
+      if (typeof res !== 'object') res = {}
+      if (res.action === 'userAuth' && res.data === false) {
+        this.setData({
+          loginStatus: 'unAuth'
+        })
+      } 
+
+      this.setData({
+        errMessage: res.message || '网络错误',
+        webErrors: [this.initPageData]
+      })
+
+    })
+  },
+  onLoadFectTopices: function () {
+    this.setData({
+      topicHasFirstLoad: false,
+      errMessage: false
+    })
+
+    this.fetchTopices()
+      .then(()=> {
+        this.setData({
+          topicHasFirstLoad: true
+        })
+      })
+      .catch(res => {
+        if (typeof res !== 'object') res = {}
+        this.setData({
+          errMessage: res.message || '网络错误',
+          webErrors: [this.onLoadFectTopices]
+        })
+      })
+  },
+  fetchTopices (isFirst = false) {
+    return wx.myRequests.msgBoardAdminList({
       ...this.data.pagination
-     },data => {
-        if (data.length > 0) {
-          data = data.map(item => {
+     }).then(data => {
+        if (data.data.length > 0) {
+          let topics = data.data.map(item => {
             item.creatFriendlyTime = utils.getFriendlyTime(new Date(item.createdTime))
             item.lastFriendlyTime = utils.getFriendlyTime(new Date(item.updatedTime))
             return item
           })
           
           this.setData({
-            topics: this.data.topics.concat(data),
+            topics: isFirst ? topics : this.data.topics.concat(topics),
+            totalTopic: data.total,
             pagination: {
               pageNum: this.data.pagination.pageNum + 1,
-              pageSize: 30
+              pageSize: 30,
+              createdTime: topics[topics.length - 1].createdTime
             }
           })
         }
        
-       if (success) success(data)
-     }, res => {
-       if (fail) fail(res)
-    })
+       return Promise.resolve(data)
+     })
   },
   refreshWeb: function () {
-    this.data.webErrors.map(item => { item() })
+    let webErrors = this.data.webErrors
+    this.setData({
+      errMessage: false,
+      webErrors: []
+    })
+    webErrors.map(item => { item() })
   },
   onHasAuth() {
     this.setData({
@@ -175,6 +209,6 @@ Page({
   },
   goComment (e) {
     console.log(e)
-    wx.navigateTo({url:`/comments?id=${e.currentTarget.dataset.commentId}`})
+    wx.navigateTo({url:`/comments?id=${e.currentTarget.dataset.commentId}&isManager=1`})
   }
 })

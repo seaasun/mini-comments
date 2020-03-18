@@ -1,9 +1,7 @@
 {
   "pages": [
     "pages/manager/manager",
-    "comments",
-    "pages/logs/logs",
-    "pages/landing/landing"
+    "comments"
   ],
   "window": {
     "backgroundColor": "#F4F4F4",

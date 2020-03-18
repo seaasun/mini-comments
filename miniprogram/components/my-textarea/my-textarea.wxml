@@ -9,14 +9,14 @@
 <view class="textarea-box'}}"
    >
 
-    <view wx:if="{{!states.isInputComment && !states.isAuth}}" 
+    <view wx:if="{{!states.isInputComment && !states.isAuth && states.isManager}}" 
         class="bottom-box">
         <button open-type="getUserInfo" 
             bindgetuserinfo="getUserInfo"
             class="g-input-display-button input-display input-display-btn"> 说点什么... </button>
     </view>
 
-    <view wx:if="{{!states.isInputComment && states.isAuth}}" 
+    <view wx:if="{{!states.isInputComment && states.isAuth && states.isManager}}" 
         class="bottom-box">
         <button class="text-clip g-input-display-button input-display input-display-btn"
             bindtap="commentFocusInput"

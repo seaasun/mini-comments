@@ -8,16 +8,13 @@
                 </view> -->
                 <view class="manager-brief">
                     <view class="manager-name">留言板列表</view>
-                    <view class="manager-status">话题数 22</view>
+                    <view class="manager-status">话题数 {{totalTopic}}</view>
                 </view>    
             </view>
-
-            <my-page-loading wx:if="{{!topicHasFirstLoad && !topicHasLoadError}}"/>
-
             <view wx:if="{{topicHasFirstLoad}}" 
                 class="topic-lists">
 
-                <my-new-board-tip  wx:if="{{ topics.length === 0 && !topicHasLoadError}}" />
+                <my-new-board-tip  wx:if="{{ topics.length === 0 && !errMessage}}" />
 
                 <view wx:for="{{topics}}" wx:key="id" class="topic-box">
                     <view class="topic-time">
@@ -47,30 +44,23 @@
                 </view>    
                 
             </view>
-            <!-- <view class="pagination-box">
-                <view class="pagination-prev">前一页</view>
-                <view class="pagination-select">
-                    <picker range="{{paginations}}" 
-                            range-key="index"
-                            value="0">
-                        1   
-                    </picker>
-                </view>
-                <view class="pagination-next">后一页</view>
-            </view> -->
+        </view>
+        
+        <view wx:if="{{noLoaderMoreShowed}}" 
+            class="g-no-loader-more" />
+            
+        <my-footer-loading wx:if="{{loaderMoreShowed}}" />
+    </view>
 
-            <view wx:if ="{{topicHasLoadError}}" 
+    <my-page-loading wx:if="{{!topicHasFirstLoad && loginStatus !== 'unAuth'  && !errMessage}}"/>
+
+    <view wx:if ="{{errMessage}}" 
                 bindtap="refreshWeb"
                 class='g-web-error'>
                 <mp-icon icon="refresh" size="32" color="#B2B2B2"/>
-                <view class='g-web-error-text'>网络错误，点击重试</view>
-            </view>
+                <view class='g-web-error-text'>{{errMessage}}，点击重试</view>
+    </view>
 
-        </view>
-        <view wx:if="{{noLoaderMoreShowed}}" 
-            class="g-no-loader-more" />
-        <my-footer-loading wx:if="{{loaderMoreShowed}}" />
-        <my-footer></my-footer>
-    </view>    
+    <my-footer></my-footer>
 </view>
 

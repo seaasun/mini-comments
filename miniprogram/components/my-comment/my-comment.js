@@ -18,15 +18,12 @@ Component({
       {text: '删除', value: 'authorDelete'}
     ],
     showMoreAction: false,
+    actionMoring: false,
+
     toggleChecking: false,
-    showDeleteTip:false,
-    deleteTipWating: false,
-    deleteTiping: false,
-    delteTipDone: false,
     commentIsDeleting: false,
     replayIsDeleting: false,
     toggleGooding: false,
-    actionMoring: false,
   },
   lifetimes: {
     created: function () {
@@ -43,46 +40,30 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    writeAuthorComment: function () {
-      store.action('update', {
-        isInputComment: true,
-        replayId: this.data.comment.id,
-      })
-    },
-    toggleCheck: function () {
-      if (this.data.toggleChecking) return false
+    updateMoreActions: function () {
       this.setData({
-        toggleChecking: true
+        'moreActions[0].text': this.data.comment.top ? '取消置顶' : '置顶'
       })
-      let check = 1
-      
-      if (this.data.comment.checked == 1) {
-        check = 0
-      }
-
-      wx.myRequests.messageAdminCheck({
-        check,
-        id: this.data.comment.id
-      }, () => {
-        this.setData({
-          toggleChecking: false,
-          'comment.checked': check === 1 ? 1 : 0
-        })
-        console.log(this.data)
-      }, resp => {
-        this.setData({
-          toggleChecking: false,
-        })
-        store.action('update', {
-          errMsg: resp.message
-        })
-      })
-
     },
     showMoreActions: function () {
       if (this.data.actionMoring) return 
       this.setData({
         showMoreAction: true
+      })
+    },
+    doActionMore: function (event) {
+      if (!this.data.showMoreAction) return false
+   
+      let value = event.detail.value
+      
+      if (value === 'toggleTop') {
+        this.doToggleTop()
+      } else if (value == 'authorDelete') {
+        this.doAuthorDelete()
+      }
+
+      this.setData({
+        showMoreAction: false
       })
     },
     doToggleTop: function () {
@@ -99,18 +80,14 @@ Component({
           'comment.top':top
         })
         this.updateMoreActions()
-      }, resp => {
+      }, res => {
+        if (typeof res !== 'object') res = {}
         this.setData({
           actionMoring: false,
         })
         store.action('update', {
-          errMsg: resp.message
+          errMsg: res.message || '网路错误, 请重试'
         })  
-      })
-    },
-    cancelDeleteComment: function () {
-      this.setData({
-        showDeleteTip: false,
       })
     },
     doAuthorDelete: function () {
@@ -132,10 +109,11 @@ Component({
             })
           
             this.triggerEvent('deleteComment', {id: this.data.comment.id}, {})
-          }).catch(()=> {
-            store.action('update', {
-                    errMsg: resp.message
-                  })
+          }).catch(res => {
+            if (typeof res !== 'object') res = {}
+              store.action('update', {
+                errMsg: res.message || '网路错误, 请重试'
+              })
           })
         },
         complete: () => {
@@ -144,76 +122,38 @@ Component({
           })
         }
       })
-
-      // this.setData({
-      //   deleteTipWating: true,
-      //   showDeleteTip: true,
-      //   deleteTiping: false,
-      //   delteTipDone: false,
-      // })
-
-     
-       
-      
-      // // 执行删除
-      // setTimeout(() => {
-      //   this.setData({
-      //     deleteTipWating: false,
-      //     deleteTiping: true
-      //   })
-        
-      //   wx.myRequests.messageAdminDelete({
-      //     id: this.data.comment.id
-      //   }, () => {
-      //     // 删除完成
-      //     this.setData({
-      //       deleteTiping: false,
-      //       delteTipDone: true,
-      //       isDelete: true
-      //     })
-          
-      //     store.action('updateMsgboard', {
-      //       msgQtyForCommenter: this.data.states.msgBoard.msgQtyForCommenter - 1
-      //     })
-          
-      //     // Todo@maxiao hav problem
-      //     this.triggerEvent('deleteComment', {id: this.data.comment.id}, {})
-         
-      //     // 关闭提示
-      //     setTimeout(() => {
-      //       this.setData({
-      //         showDeleteTip:false
-      //       })
-      //     }, 1000)
-      //   }, resp => {
-          
-      //     this.setData({
-      //       deleteTiping: false,
-      //       showDeleteTip:false,
-      //     })
-
-      //     store.action('update', {
-      //       errMsg: resp.message
-      //     })
-      //   })
-      // }, 2000)
-
     },
-    doActionMore: function (event) {
-      if (!this.data.showMoreAction) return false
-   
-      let value = event.detail.value
+
+    toggleCheck: function () {
+      if (this.data.toggleChecking) return false
+      this.setData({
+        toggleChecking: true
+      })
+      let check = 1
       
-      if (value === 'toggleTop') {
-        this.doToggleTop()
-      } else if (value == 'authorDelete') {
-        this.doAuthorDelete()
+      if (this.data.comment.checked == 1) {
+        check = 0
       }
 
-      this.setData({
-        showMoreAction: false
+      wx.myRequests.messageAdminCheck({
+        check,
+        id: this.data.comment.id
+      }).then(() => {
+        this.setData({
+          toggleChecking: false,
+          'comment.checked': check === 1 ? 1 : 0
+        })
+      }).catch(res => {
+        if (typeof res !== 'object') res = {}
+        this.setData({
+          toggleChecking: false,
+        })
+        store.action('update', {
+          errMsg: res.message || '网路错误, 请重试'
+        })
       })
     },
+
     doToggleGood: function () {
       let praise = 1
       if (this.data.comment.isPraised) {
@@ -225,34 +165,41 @@ Component({
       wx.myRequests.messagePraise({
         praise: praise,
         id: this.data.comment.id
-      }, () => {
+      }).then(() => {
         this.setData({
           toggleGooding: false,
           'comment.praisePoint': this.data.comment.praisePoint + praise,
           'comment.isPraised': praise === 1 ? 1 : 0
         })
-      }, resp => {
+      }).catch(res => {
+        if (typeof res !== 'object') res = {}
         this.setData({
           toggleGooding: false,
         })
         store.action('update', {
-          errMsg: resp.message
+          errMsg: res.message || '网路错误, 请重试'
         })
       })
-      
+
     },
-    updateMoreActions: function () {
-      this.setData({
-        'moreActions[0].text': this.data.comment.top ? '取消置顶' : '置顶'
+
+    writeAuthorComment: function () {
+      store.action('update', {
+        isInputComment: true,
+        replayId: this.data.comment.id,
       })
     },
+    
     deleteAuthorComment () {
       if (this.data.replayIsDeleting) return 
      
       wx.showModal({
         title: '是否要删除？',
         content: '删除后回复不可找回',
-        success: () => {
+        success: (e) => {
+          if (e.cancel) {
+            return
+          }
           this.setData({
             replayIsDeleting: true
           })
@@ -260,21 +207,18 @@ Component({
           wx.myRequests.messageAdminDelete({
             id: this.data.comment.child.id
           }).then(resp => {
-          
             this.setData({
-              'comment.child': null
+              'comment.child': null,
+              replayIsDeleting: false
             })
-          }).catch( resp => {
-            if (resp && resp.message) {
-              store.action('update', {
-                errMsg: resp.message
-              })
-            }
-          })
-        },
-        complete: () => {
-          this.setData({
-            replayIsDeleting: false
+          }).catch(res => {
+            if (typeof res !== 'object') res = {}
+            this.setData({
+              replayIsDeleting: false,
+            })
+            store.action('update', {
+              errMsg: res.message || '网路错误, 请重试'
+            })
           })
         }
       })

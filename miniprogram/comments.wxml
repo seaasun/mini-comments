@@ -15,9 +15,9 @@
                 {{states.errMsg}}
             </navigator>
         </view>
-        <my-page-loading  wx:if="{{!commentsHasFirstLoad && !commentsHasLoadError}}"/>
+        
 
-        <view wx:if="{{commentsHasFirstLoad && !isErrorMsgboardId}}"  
+        <view wx:if="{{comments.length > 0 || commentsHasFirstLoad && !isErrorMsgboardId && !errMessage}}"  
             class="comment-container">
             <view class="comment-brief">
                 <view class="comment-text">
@@ -64,17 +64,20 @@
                 comment="{{item}}"
                  />
         </view> 
-        
-        <view wx:if ="{{commentsHasLoadError}}" 
+
+        <my-page-loading  wx:if="{{!commentsHasFirstLoad && !commentsHasFirstLoad &!errMessage}}"/>
+
+        <view wx:if ="{{errMessage}}" 
             bindtap="refreshWeb"
             class='g-web-error'>
             <mp-icon icon="refresh" size="32" color="#B2B2B2"/>
-            <view class='g-web-error-text'>网络错误，点击重试</view>
+            <view class='g-web-error-text'>{{errMessage}}，点击重试</view>
         </view>
 
         <view wx:if="{{isErrorMsgboardId}}" class='g-web-error'>
             <view class='g-web-error-text'>没有此留言板，请联系公众号作者</view>
         </view>
+
     </view>
     <view wx:if="{{noLoaderMoreShowed}}" 
         class="g-no-loader-more" />
@@ -87,4 +90,4 @@
     bindhide="clearErrMsg"
     delay= "2000"
     />
-<my-textarea  bind:send="onSend" wx:if="{{!states.isManager}}"/>
+<my-textarea  bind:send="onSend"/>

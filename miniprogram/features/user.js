@@ -10,7 +10,10 @@ function setUserInfoByButton (event) {
       content: '授权小程序后，才可使用~',
       showCancel: false
     })
-    return Promise.reject('[fail],未授权')
+    return Promise.reject({
+      action: 'applyUserAuth',
+      data: false
+    })
   }
 
   let sessionKey = request.getSessionId()
@@ -52,7 +55,7 @@ function setUserInfo () {
   let states = store.getStates()
   
   if (states.user && states.user.nickName) {
-    return Promise.resolve('ok')
+    return Promise.resolve()
 
   }
 
@@ -66,7 +69,10 @@ function setUserInfo () {
         return Promise.resolve()
       } else {
         console.log('[fail]未得到用户授权')
-        return Promise.reject('[fail]未得到用户授权')
+        return Promise.reject({
+          action: 'userAuth',
+          data: false
+        })
       }
     })
     // 2. 获取wx用户信息
@@ -87,10 +93,6 @@ function setUserInfo () {
         ...res
       })
     })
-    .catch(res => {
-      console.log('[fail]未能设置用户信息')
-      return Promise.reject(res)
-    })
 }
 
 // 读取缓存中的sessionId + 微信登陆 + 后端登陆 + 存seesion
@@ -99,6 +101,7 @@ function login () {
   try {
     let value = wx.getStorageSync('sessionId')
     request.setSeesion(value)
+    // TODO@maxiao session 过期时间需要判断
     if (value && false) {
       return Promise.resolve({
         sessionId: value,
@@ -129,7 +132,10 @@ function login () {
     })
     .catch(res => {
       console.log('[fail]用户登陆失败')
-      return Promise.reject(res)
+      return Promise.reject({
+        action: 'userLogin',
+        res
+      })
     })
 }
 

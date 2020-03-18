@@ -16,13 +16,14 @@ Component({
    * 组件的初始数据
    */
   data: {
-    sending: false, // 消息是否在发送中
-    currentComment: "", // 用户输入的评论
-    textareaBrief: '留言',
-    inputPlaceholder: '留言',
-    successMsg: '',
     states: store.states,
 
+    sending: false, // 消息是否在发送中
+    currentComment: "", // 用户输入的评论
+    textareaBrief: '留言', // textarea上放的提示词
+    inputPlaceholder: '留言', // textarea中的placeholder
+    successMsg: '',
+    
     // emoji 相关
     emojis: ['😀','😁','😂','😃','😄','😅','😆','😉','😊','😋','😎','😍','😘','😗','😙','😚','😇','😐','😑','😶','😏','😣','😥','😮','😯','😪','😫','😴','😌','😛','😜','😝','😒','😓','😔','😕','😲','😷','😖','😞','😟','😤','😢','😭','😦','😧','😨','😬','😰','😱','😳','😵','😡','😠'],
     emojiShowed: false,
@@ -59,10 +60,7 @@ Component({
               this.setData({
                 textFoucs: true
               })
-            }, 1
-             
-            )
-         
+            }, 1)
          }
         }
       }
@@ -73,7 +71,7 @@ Component({
         replay: {
           check: {
             textareaBrief: '写回复',
-            inputPlaceholder: '回复的留言，将加入精选可见'
+            inputPlaceholder: '回复留言，增加互动。可删除，不可修改哦~'
           },
           unCheck: {
             textareaBrief: '写回复',
@@ -83,7 +81,7 @@ Component({
         },
         send: {
           check: {
-            textareaBrief: '写精选选言',
+            textareaBrief: '写精选留言',
             inputPlaceholder: '留言将由公众号筛选可见'
           },
           unCheck: {
@@ -198,20 +196,26 @@ Component({
       
       wx.myRequests[options.request](
         options.params)
-        .then(() => {
+        .then(resp => {
+          
+          if (typeof res !== 'object' && !resp.id) {
+            return Promise.reject(resp)
+          }
+
           this.triggerEvent('send', {
             isReplay: this.data.states.replayId !== 0,
             replayId: this.data.states.replayId,
-            comment: {
-              nickname: 't',
-              content: this.data.currentComment
-            }
+            comment: resp
           },{})
 
           this.setData({
             sending: false,
             currentComment: '',
-            successMsg: this.data.states.replayId ?'回复成功' : '留言成功'
+            successMsg: this.data.states.replayId 
+              ? '回复成功' 
+              : this.data.states.msgBoard.needCheck === 1 
+                ?'留言成功，经原作审核后可见'
+                : '留言成功，立即可见'
           })
           
           if (this.data.states.replayId !== 0) {
@@ -230,12 +234,13 @@ Component({
               successMsg: ''
             })
           }, 2000)
-        }).catch(resp => {
+        }).catch(res => {
+            if (typeof res !== 'object') res = {}
             this.setData({
               sending: false,
             })
             store.action('update', {
-              errMsg: resp.message
+              errMsg: res.message || '网路错误，请重试'
             })
         })
     },

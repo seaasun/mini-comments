@@ -4,7 +4,6 @@ let options = {
     messageAdminAuthorReplay: {
         url: 'wx/ma/message/admin/author/reply',
         method: 'post',
-        isDataBoolean: true,
         mock: false,
         pass: false
     },
@@ -37,7 +36,6 @@ let options = {
     messageCreate: {
         url: 'wx/ma/message/create',
         method: 'post',
-        isDataBoolean: true,
         mock: false,
         pass: true
     },
@@ -97,7 +95,7 @@ function getUrl (item) {
     if (item.mock) {
         return 'http://rap2.taobao.org:38080/app/mock/245416/'
     } else {
-        return 'https://www.tinyideatech.com/'
+        return 'https://www.tinyideatech.com/cy-api/'
     }
 
 }

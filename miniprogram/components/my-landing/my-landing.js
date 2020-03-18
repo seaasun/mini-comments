@@ -29,6 +29,15 @@ Component({
           })
           this.triggerEvent('onHasAuth')
         })
+        .catch(resp => {
+          if (typeof res !== 'object') res = {}
+          if (resp.action !== 'applyUserAuth') {
+            wx.showToast({
+              title: '网路错误，请重新尝试',
+              icon: 'none'
+            })
+          }
+        })
       }
   }
 })

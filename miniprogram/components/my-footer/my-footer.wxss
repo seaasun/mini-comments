@@ -1,6 +1,6 @@
 /* components/my-footer/my-footer.wxss */
 .footer-box {
-    padding-top: 32rpx;
+    padding-top: 96rpx;
     padding-bottom: 32rpx;
     color: #B2B2B2;
     text-align: center;

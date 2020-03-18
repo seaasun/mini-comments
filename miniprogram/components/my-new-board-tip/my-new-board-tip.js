@@ -27,21 +27,13 @@ Component({
         data: 'www.tinyideatech.com/ui'
       }).then(()=> {
         this.setData({
-          successMsg: '成功复制到接贴板'
+          successMsg: '成功复制到剪贴板'
         })
       }).catch(()=> {
-        errorMsg: '复制失败，请重试'
+        this.setData({
+          errorMsg: '复制失败，请重试'
+        })
       })
-    },
-    // onErrorMsgHide() {
-    //   this.setData({
-    //     errorMsg: ''
-    //   })
-    // },
-    // onSuccessMsgHide() {
-    //   this.setData({
-    //     successMsg: ''
-    //   })
-    // }
+    }
   }
 })
